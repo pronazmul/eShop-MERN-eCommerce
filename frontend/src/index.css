@@ -1,0 +1,16 @@
+main {
+  min-height: 80vh;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.product-img {
+  transition: 1s ease-in-out;
+  box-sizing: border-box;
+}
+
+.product-img:hover {
+  transform: scale(1.08);
+}
