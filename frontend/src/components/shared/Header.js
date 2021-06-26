@@ -8,7 +8,7 @@ const Header = () => {
       <Navbar bg='primary' variant='dark' expand='md' collapseOnSelect>
         <Container>
           <Link className='text-decoration-none' to='/'>
-            <Navbar.Brand>Evaly</Navbar.Brand>
+            <Navbar.Brand>eShop</Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse

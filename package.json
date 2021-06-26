@@ -1,0 +1,31 @@
+{
+  "name": "eshop-mern-ecommerce",
+  "version": "1.0.0",
+  "description": "Complete Mern Stack Ecommerce Application ",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon backend/app",
+    "prod": "NODE_ENV=production node backend/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pronazmul/eshop.git"
+  },
+  "author": "Nazmul Huda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pronazmul/eshop/issues"
+  },
+  "homepage": "https://github.com/pronazmul/eshop#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.0",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.15",
+    "multer": "^1.4.2"
+  }
+}
