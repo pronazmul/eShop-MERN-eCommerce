@@ -1,7 +1,6 @@
 //External Modules:
 const express = require('express')
 const dotenv = require('dotenv')
-const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 
 // Internal Modules:
@@ -10,19 +9,14 @@ const {
   errorHandler,
 } = require('./middleware/common/errorHandler')
 const productRouter = require('./router/productRouter')
+const mongoConnection = require('./config/db')
 
 // Configuration
 const app = express()
 dotenv.config()
 
-// Database Connection:
-mongoose
-  .connect(process.env.MONGO_CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Successfully Connected to Database '))
-  .catch((err) => console.log(err))
+// MongoDB Connection:
+mongoConnection()
 
 // Request Parser
 app.use(express.json())
@@ -41,5 +35,7 @@ app.use(errorHandler)
 
 // Server Listener:
 app.listen(process.env.PORT, () =>
-  console.log(`Server Running Port ${process.env.PORT} `)
+  console.log(
+    `Server Running in ${process.env.NODE_ENV} mode in port: ${process.env.PORT} `
+  )
 )
