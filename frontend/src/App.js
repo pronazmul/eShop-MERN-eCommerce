@@ -16,12 +16,12 @@ const App = () => {
     <Router>
       <Header />
       <Container>
-        <main className='py-3'>
+        <main className='py-2'>
           <Switch>
             <Route exact path='/'>
               <HomeScreen />
             </Route>
-            <Route path='/product/:key'>
+            <Route path='/product/:id'>
               <ProductScreen />
             </Route>
             {/* <Route path='*'>
