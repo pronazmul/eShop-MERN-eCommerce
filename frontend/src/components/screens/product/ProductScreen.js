@@ -12,7 +12,7 @@ const ProductScreen = () => {
       setProduct(data)
     }
     singleProduct()
-  }, [])
+  }, [id])
   return (
     <>
       <Link className='btn btn-outline-primary mb-2' to='/'>

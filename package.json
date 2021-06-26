@@ -4,8 +4,10 @@
   "description": "Complete Mern Stack Ecommerce Application ",
   "main": "app.js",
   "scripts": {
+    "prod": "NODE_ENV=production node backend/app",
     "start": "NODE_ENV=development nodemon backend/app",
-    "prod": "NODE_ENV=production node backend/app"
+    "client": "npm run start --prefix frontend",
+    "dev": "concurrently \"yarn start\" \"yarn client\" "
   },
   "repository": {
     "type": "git",
@@ -27,5 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.15",
     "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0"
   }
 }
