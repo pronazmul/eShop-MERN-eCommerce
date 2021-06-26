@@ -2,6 +2,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
+const colors = require('colors')
 
 // Internal Modules:
 const {
@@ -37,5 +38,6 @@ app.use(errorHandler)
 app.listen(process.env.PORT, () =>
   console.log(
     `Server Running in ${process.env.NODE_ENV} mode in port: ${process.env.PORT} `
+      .rainbow.bold
   )
 )
