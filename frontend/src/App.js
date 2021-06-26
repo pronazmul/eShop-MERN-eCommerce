@@ -24,9 +24,9 @@ const App = () => {
             <Route path='/product/:id'>
               <ProductScreen />
             </Route>
-            {/* <Route path='*'>
+            <Route path='*'>
               <Redirect to='/' />
-            </Route> */}
+            </Route>
           </Switch>
         </main>
       </Container>
