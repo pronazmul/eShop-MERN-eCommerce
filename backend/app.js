@@ -8,8 +8,8 @@ const colors = require('colors')
 const {
   notFoundHandler,
   errorHandler,
-} = require('./middleware/common/errorHandler')
-const productRouter = require('./router/productRouter')
+} = require('./middlewares/common/errorHandler')
+const productRouter = require('./routers/productRouters')
 const mongoConnection = require('./config/db')
 
 // Configuration
