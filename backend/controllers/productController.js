@@ -12,7 +12,7 @@ const allProducts = asyncHandler(async (req, res) => {
 
 // @Route: GET api/products/:id
 const singleProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById({ _id: req.params.id })
+  const product = await Product.findById(req.params.id)
   res.status(200).json(product)
 })
 

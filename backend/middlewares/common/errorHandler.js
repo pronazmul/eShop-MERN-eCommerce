@@ -3,14 +3,16 @@ const createError = require('http-errors')
 
 // Not Found Handler:
 const notFoundHandler = (req, res, next) => {
-  next(createError(404, 'Requested Adress Not Found!'))
+  next(createError(404, `Not Found - ${req.originalUrl}`))
 }
 // Error Handler:
 const errorHandler = (error, req, res, next) => {
-  res.locals.error =
-    process.env.NODE_ENV === 'development' ? error : { message: error.message }
+  const errorMessage =
+    process.env.NODE_ENV === 'production'
+      ? { message: error.message }
+      : { message: error.message, stack: error.stack }
 
-  res.status(error.status || 500).json(res.locals.error)
+  res.status(error.status || 500).json({ message: errorMessage })
 }
 
 // Module Exports:

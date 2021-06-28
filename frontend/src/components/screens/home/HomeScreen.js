@@ -5,7 +5,6 @@ import axios from 'axios'
 
 const HomeScreen = () => {
   const [Products, setProducts] = useState([])
-  console.log(Products)
   useEffect(() => {
     const fetchProduct = async () => {
       const { data } = await axios.get('/api/products')

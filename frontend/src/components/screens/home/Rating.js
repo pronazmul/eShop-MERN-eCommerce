@@ -3,7 +3,7 @@ import React from 'react'
 const Rating = ({ rating, review, color = '#ebba34' }) => {
   return (
     <>
-      <sapn>
+      <span>
         <i
           style={{ color }}
           className={
@@ -14,8 +14,8 @@ const Rating = ({ rating, review, color = '#ebba34' }) => {
               : 'far fa-star'
           }
         ></i>
-      </sapn>
-      <sapn>
+      </span>
+      <span>
         <i
           style={{ color }}
           className={
@@ -26,8 +26,8 @@ const Rating = ({ rating, review, color = '#ebba34' }) => {
               : 'far fa-star'
           }
         ></i>
-      </sapn>
-      <sapn>
+      </span>
+      <span>
         <i
           style={{ color }}
           className={
@@ -38,8 +38,8 @@ const Rating = ({ rating, review, color = '#ebba34' }) => {
               : 'far fa-star'
           }
         ></i>
-      </sapn>
-      <sapn>
+      </span>
+      <span>
         <i
           style={{ color }}
           className={
@@ -50,8 +50,8 @@ const Rating = ({ rating, review, color = '#ebba34' }) => {
               : 'far fa-star'
           }
         ></i>
-      </sapn>
-      <sapn>
+      </span>
+      <span>
         <i
           style={{ color }}
           className={
@@ -62,7 +62,7 @@ const Rating = ({ rating, review, color = '#ebba34' }) => {
               : 'far fa-star'
           }
         ></i>
-      </sapn>
+      </span>
 
       <span> {review && review}</span>
     </>
