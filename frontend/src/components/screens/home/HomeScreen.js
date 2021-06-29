@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react'
-import { Alert, Col, Row, Spinner } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../../../redux/actions/productActions'
+import { productListAction } from '../../../redux/actions/productActions'
+import Loader from '../../shared/Loader'
+import Message from '../../shared/Message'
 import Product from './Product'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(listProducts())
+    dispatch(productListAction())
   }, [dispatch])
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList
+
+  const { loading, error, products } = useSelector((state) => state.productList)
 
   return (
     <>
@@ -20,13 +22,9 @@ const HomeScreen = () => {
       </Row>
       <Row>
         {loading ? (
-          <div className='d-flex justify-content-center mt-5'>
-            <Spinner animation='grow' />
-          </div>
+          <Loader />
         ) : error ? (
-          <Alert variant='danger'>
-            <Alert.Heading>{error}</Alert.Heading>
-          </Alert>
+          <Message variant='danger' error={error} />
         ) : (
           products.map((item) => (
             <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
