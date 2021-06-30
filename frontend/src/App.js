@@ -10,6 +10,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom'
+import CartScreen from './components/screens/cart/CartScreen'
 
 const App = () => {
   return (
@@ -23,6 +24,9 @@ const App = () => {
             </Route>
             <Route path='/product/:id'>
               <ProductScreen />
+            </Route>
+            <Route path='/cart/:id?'>
+              <CartScreen />
             </Route>
             <Route path='*'>
               <Redirect to='/' />

@@ -1,13 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Col, Image, Row, ListGroup, ListGroupItem } from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import {
+  Col,
+  Image,
+  Row,
+  ListGroup,
+  ListGroupItem,
+  Form,
+  Button,
+} from 'react-bootstrap'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import Rating from '../home/Rating'
 import Loader from '../../shared/Loader'
 import Message from '../../shared/Message'
 import { productDetailsAction } from '../../../redux/actions/productActions'
+
 const ProductScreen = () => {
+  const history = useHistory()
   const { id } = useParams()
+  const [qty, setQty] = useState(0)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -17,7 +28,9 @@ const ProductScreen = () => {
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   )
-
+  const addToCartHandler = () => {
+    history.push(`/cart/${id}?qty=${qty}`)
+  }
   return (
     <>
       <Link className='btn btn-outline-primary mb-2' to='/'>
@@ -67,10 +80,32 @@ const ProductScreen = () => {
                       {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </ListGroupItem>
+                  <ListGroupItem className='py-1 d-flex justify-content-between'>
+                    <strong>Qty:</strong>
+                    <Form.Control
+                      as='select'
+                      value={qty}
+                      onChange={(e) => setQty(e.target.value)}
+                      size='sm'
+                      style={{ width: '50%' }}
+                      disabled={Boolean(!product.countInStock)}
+                    >
+                      {[...Array(product.countInStock).keys()].map((i) => (
+                        <option key={i + 1} value={i + 1} className='bg-info'>
+                          {i + 1}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </ListGroupItem>
                   <ListGroupItem>
-                    <Link className='btn btn-primary mb-2' to='/'>
+                    <Button
+                      className={`btn btn-primary mb-2 ${
+                        product.countInStock < 1 && 'disabled'
+                      }`}
+                      onClick={addToCartHandler}
+                    >
                       Add to Cart
-                    </Link>
+                    </Button>
                   </ListGroupItem>
                 </Col>
               </Row>
