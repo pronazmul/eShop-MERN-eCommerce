@@ -8,19 +8,8 @@ const {
   allProducts,
 } = require('../controllers/productController')
 
-/**
- * @desc   Fetch All Product
- * @Route  GET api/products
- * @access public
- */
-router.get('/', allProducts)
-
-/**
- * @desc   Fetch Single Product
- * @Route  GET api/products/:id
- * @access public
- */
-router.get('/:id', singleProduct)
+router.route('/').get(allProducts)
+router.route('/:id').get(singleProduct)
 
 // Export Module:
 module.exports = router
