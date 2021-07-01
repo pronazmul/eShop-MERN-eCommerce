@@ -42,8 +42,16 @@ const ProductScreen = () => {
         <Message variant='danger' error={error} />
       ) : (
         <Row>
-          <Col className='px-1' md={6}>
-            <Image src={product.image} alt={product.name} rounded fluid />
+          <Col
+            className='px-1 d-flex justify-content-center align-items-center'
+            md={6}
+          >
+            <Image
+              style={{ width: '80%', height: '80%' }}
+              src={product.image}
+              alt={product.name}
+              rounded
+            />
           </Col>
           <Col md={6} className='px-0'>
             <ListGroup className='rounded py-4'>
@@ -91,15 +99,15 @@ const ProductScreen = () => {
                       disabled={Boolean(!product.countInStock)}
                     >
                       {[...Array(product.countInStock).keys()].map((i) => (
-                        <option key={i + 1} value={i + 1} className='bg-info'>
+                        <option key={i + 1} value={i + 1}>
                           {i + 1}
                         </option>
                       ))}
                     </Form.Control>
                   </ListGroupItem>
-                  <ListGroupItem>
+                  <ListGroupItem className=' d-flex justify-content-center'>
                     <Button
-                      className={`btn btn-primary mb-2 ${
+                      className={`btn btn-sm btn-primary mb-2 ${
                         product.countInStock < 1 && 'disabled'
                       }`}
                       onClick={addToCartHandler}
