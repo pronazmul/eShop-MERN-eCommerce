@@ -16,10 +16,10 @@ const Header = () => {
             className='justify-content-end'
           >
             <Nav>
-              <Link className='text-decoration-none btn ' to='/cart'>
+              <Link className='btn btn-md border-0' to='/cart'>
                 <i className='fas fa-shopping-cart'></i> Cart
               </Link>
-              <Link className='text-decoration-none btn' to='/login'>
+              <Link className='btn btn-md border-0' to='/login'>
                 <i className='fas fa-user'></i> Sign In
               </Link>
             </Nav>
