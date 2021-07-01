@@ -18,9 +18,9 @@ import { productDetailsAction } from '../../../redux/actions/productActions'
 const ProductScreen = () => {
   const history = useHistory()
   const { id } = useParams()
-  const [qty, setQty] = useState(0)
-  const dispatch = useDispatch()
+  const [qty, setQty] = useState(1)
 
+  const dispatch = useDispatch()
   useEffect(() => {
     dispatch(productDetailsAction(id))
   }, [id, dispatch])
