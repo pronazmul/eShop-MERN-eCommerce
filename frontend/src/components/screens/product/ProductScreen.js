@@ -33,7 +33,7 @@ const ProductScreen = () => {
   }
   return (
     <>
-      <Link className='btn btn-outline-primary mb-2' to='/'>
+      <Link className='btn btn-sm btn-outline-primary my-2' to='/'>
         Back to home
       </Link>
       {loading ? (
@@ -44,51 +44,51 @@ const ProductScreen = () => {
         <Row>
           <Col
             className='px-1 d-flex justify-content-center align-items-center'
-            md={6}
+            md={5}
           >
             <Image
-              style={{ width: '80%', height: '80%' }}
+              style={{ width: '90%', height: '90%' }}
               src={product.image}
               alt={product.name}
               rounded
             />
           </Col>
-          <Col md={6} className='px-0'>
+          <Col md={7} className='px-0'>
             <ListGroup className='rounded py-4'>
               <Row>
                 <Col md={7}>
-                  <ListGroupItem className='py-1'>
+                  <ListGroupItem className='py-2'>
                     <h4>{product.name}</h4>
                   </ListGroupItem>
-                  <ListGroupItem className='py-1'>
+                  <ListGroupItem className='py-2'>
                     <Rating
                       rating={product.rating}
                       review={`${product.numReviews} reviews`}
                     />
                   </ListGroupItem>
-                  <ListGroupItem className='py-1'>
+                  <ListGroupItem className='py-2'>
                     <strong>Price: ${product.price}</strong>
                   </ListGroupItem>
-                  <ListGroupItem className='py-1'>
+                  <ListGroupItem className='py-2'>
                     <p className='text-muted text-align-justify'>
                       {product.description}
                     </p>
                   </ListGroupItem>
                 </Col>
                 <Col md={5}>
-                  <ListGroupItem className='py-1 d-flex justify-content-between'>
+                  <ListGroupItem className='py-2 d-flex justify-content-between'>
                     <strong>Price:</strong>
                     <span className='font-weight-bolder'>
                       $ {product.price}
                     </span>
                   </ListGroupItem>
-                  <ListGroupItem className='py-1 d-flex justify-content-between'>
+                  <ListGroupItem className='py-2 d-flex justify-content-between'>
                     <strong>Stock:</strong>
                     <span className='font-weight-bolder'>
                       {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </ListGroupItem>
-                  <ListGroupItem className='py-1 d-flex justify-content-between'>
+                  <ListGroupItem className='py-2 d-flex justify-content-between'>
                     <strong>Qty:</strong>
                     <Form.Control
                       as='select'
