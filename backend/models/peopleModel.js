@@ -4,29 +4,27 @@ const peopleSchema = mongoose.Schema(
   {
     name: {
       type: String,
-	trim:true,
+      trim: true,
       required: true,
     },
     email: {
       type: String,
-trim:true,
-lowercase:true,
+      trim: true,
+      lowercase: true,
       required: true,
       unique: true,
     },
-	mobile:{
-type:String
-},
+    mobile: String,
     password: {
       type: String,
       required: true,
     },
-avatar:String,
+    avatar: String,
 
     role: {
       type: String,
-      enum:["user","admin"],
-      default: "user",
+      enum: ['user', 'admin'],
+      default: 'user',
     },
   },
   { timestamps: true }
