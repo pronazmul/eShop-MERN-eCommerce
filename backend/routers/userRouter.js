@@ -5,7 +5,7 @@ const router = express.Router()
 
 // Internal Modules:
 const { addUser } = require('../controllers/userController')
-const avatarUpload = require('../middlewares/fileUploder/avatarUpload')
+const avatarUpload = require('../middlewares/uploadValidation/avatarUpload')
 
 // Internal Modules:
 
