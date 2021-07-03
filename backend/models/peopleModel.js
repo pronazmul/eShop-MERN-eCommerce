@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-
 const peopleSchema = mongoose.Schema(
   {
     name: {
@@ -12,7 +11,6 @@ const peopleSchema = mongoose.Schema(
       trim: true,
       lowercase: true,
       required: true,
-      unique: true,
     },
     mobile: String,
     password: {
@@ -20,7 +18,6 @@ const peopleSchema = mongoose.Schema(
       required: true,
     },
     avatar: String,
-
     role: {
       type: String,
       enum: ['user', 'admin'],

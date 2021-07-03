@@ -51,6 +51,7 @@ const userValidator = [
 const userValidationHandler = (req, res, next) => {
   const errors = validationResult(req)
   const formattedError = errors.mapped()
+
   if (Object.keys(formattedError).length === 0) {
     next()
   } else {

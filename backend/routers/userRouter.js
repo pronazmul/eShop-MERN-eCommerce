@@ -7,7 +7,7 @@ const {
   userValidator,
   userValidationHandler,
 } = require('../middlewares/dataValidation/userResistration')
-const { addUser } = require('../controllers/userController')
+const { userResisgration, userLogin } = require('../controllers/userController')
 const avatarUpload = require('../middlewares/uploadValidation/avatarUpload')
 
 router.post(
@@ -15,8 +15,10 @@ router.post(
   avatarUpload,
   userValidator,
   userValidationHandler,
-  addUser
+  userResisgration
 )
+
+router.post('/login', userLogin)
 
 // Export Module:
 module.exports = router
