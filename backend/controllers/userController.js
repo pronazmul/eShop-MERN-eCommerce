@@ -8,7 +8,7 @@ const tokenGenerator = require('../utilities/tokenGenerator')
 
 /**
  * @desc   Store Resistered Users
- * @Route  POST /api/user/registration
+ * @Route  POST /api/user/
  * @access public
  */
 const userResisgration = async (req, res, next) => {
