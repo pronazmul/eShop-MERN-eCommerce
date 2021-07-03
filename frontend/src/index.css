@@ -14,3 +14,19 @@ main {
 .product-img:hover {
   transform: scale(1.08);
 }
+
+.btn-midium {
+  background-color: aliceblue;
+  margin-left: 5px;
+  padding: 10px 15px;
+}
+
+.btn-blue {
+  margin-left: 5px;
+  padding: 10px 15px;
+}
+
+.header-logo {
+  font-size: 30px;
+  font-weight: bolder;
+}

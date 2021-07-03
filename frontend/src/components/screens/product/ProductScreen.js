@@ -33,7 +33,7 @@ const ProductScreen = () => {
   }
   return (
     <>
-      <Link className='btn btn-sm btn-outline-primary my-2' to='/'>
+      <Link className='btn btn-md btn-blue btn-primary my-2' to='/'>
         Back to home
       </Link>
       {loading ? (
@@ -106,14 +106,14 @@ const ProductScreen = () => {
                     </Form.Control>
                   </ListGroupItem>
                   <ListGroupItem className=' d-flex justify-content-center'>
-                    <Button
-                      className={`btn btn-sm btn-primary mb-2 ${
+                    <Link
+                      className={`btn btn-md btn-blue btn-primary mb-2 ${
                         product.countInStock < 1 && 'disabled'
                       }`}
                       onClick={addToCartHandler}
                     >
                       Add to Cart
-                    </Button>
+                    </Link>
                   </ListGroupItem>
                 </Col>
               </Row>

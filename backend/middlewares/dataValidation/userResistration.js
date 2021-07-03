@@ -62,7 +62,6 @@ const userValidationHandler = (req, res, next) => {
       )
     }
   }
-
   res.status(500).json({
     errors: formattedError,
   })

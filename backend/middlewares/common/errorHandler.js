@@ -12,7 +12,7 @@ const errorHandler = (error, req, res, next) => {
       ? { message: error.message }
       : { message: error.message, stack: error.stack }
 
-  res.status(error.status || 500).json({ message: errorMessage })
+  res.status(error.status || 500).json(errorMessage)
 }
 
 // Module Exports:

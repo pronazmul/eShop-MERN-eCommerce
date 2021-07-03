@@ -8,7 +8,7 @@ const Header = () => {
       <Navbar bg='primary' variant='dark' expand='md' collapseOnSelect>
         <Container>
           <Link className='text-decoration-none' to='/'>
-            <Navbar.Brand>eShop</Navbar.Brand>
+            <Navbar.Brand className='header-logo'>eShop</Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse
@@ -16,10 +16,10 @@ const Header = () => {
             className='justify-content-end'
           >
             <Nav>
-              <Link className='btn btn-md border-0' to='/cart'>
+              <Link className='btn btn-md btn-midium' to='/cart'>
                 <i className='fas fa-shopping-cart'></i> Cart
               </Link>
-              <Link className='btn btn-md border-0' to='/login'>
+              <Link className='btn btn-md btn-midium' to='/login'>
                 <i className='fas fa-user'></i> Sign In
               </Link>
             </Nav>

@@ -36,7 +36,10 @@ const CartScreen = () => {
       {cartItems.length === 0 ? (
         <Row>
           <Message>
-            Cart is empty <Link to='/'>Back to Home</Link>
+            Cart is empty{' '}
+            <Link to='/' className='btn btn-md btn-blue'>
+              Back to Home
+            </Link>
           </Message>
         </Row>
       ) : (
@@ -122,7 +125,7 @@ const CartScreen = () => {
               </ListGroup.Item>
               <ListGroup.Item className='text-center'>
                 <Button
-                  className='btn btn-block mt-3'
+                  className='btn btn-block btn-blue mt-3'
                   disabled={cartItems.length === 0}
                   onClick={hadleCheckout}
                 >
