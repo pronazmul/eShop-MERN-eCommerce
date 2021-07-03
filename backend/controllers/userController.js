@@ -60,7 +60,15 @@ const userLogin = async (req, res, next) => {
         avatar: user.avatar,
         role: user.role,
       }
+      // Generate Token
       const token = tokenGenerator(userData)
+
+      // Set Cookie:
+      res.cookie(process.env.COOKIE_NAME, token, {
+        maxAge: process.env.JWT_EXPIRY,
+        httpOnly: true,
+        signed: true,
+      })
 
       res.status(200).json({ ...userData, token })
     } else {
@@ -77,5 +85,14 @@ const userLogin = async (req, res, next) => {
   }
 }
 
-// Module Export:
-module.exports = { userResisgration, userLogin }
+/**
+ * @desc   Get User Profile
+ * @Route  GET /api/user/profile
+ * @access protected
+ */
+const getUser = (req, res, next) => {
+  res.send(req.user)
+}
+
+// Module Export
+module.exports = { userResisgration, userLogin, getUser }
