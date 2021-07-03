@@ -15,13 +15,9 @@ const {
 const avatarUpload = require('../middlewares/uploadValidation/avatarUpload')
 const authGuard = require('../middlewares/common/authMiddleware')
 
-router.post(
-  '/registration',
-  avatarUpload,
-  userValidator,
-  userValidationHandler,
-  userResisgration
-)
+router
+  .route('/')
+  .post(avatarUpload, userValidator, userValidationHandler, userResisgration)
 
 router.post('/login', userLogin)
 

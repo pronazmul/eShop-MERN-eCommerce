@@ -27,7 +27,7 @@ const userResisgration = async (req, res, next) => {
         password: hashedPassword,
       })
     }
-    newUser.save()
+    const result = newUser.save()
     res.status(200).json({
       message: 'User Resistration Successfull!',
     })
