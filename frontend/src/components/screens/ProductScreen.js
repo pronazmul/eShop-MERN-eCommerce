@@ -10,10 +10,10 @@ import {
   Button,
 } from 'react-bootstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
-import Rating from '../home/Rating'
-import Loader from '../../shared/Loader'
-import Message from '../../shared/Message'
-import { productDetailsAction } from '../../../redux/actions/productActions'
+import Rating from '../uiElements/Rating'
+import Loader from '../uiElements/Loader'
+import Message from '../uiElements/Message'
+import { productDetailsAction } from '../../redux/actions/productActions'
 
 const ProductScreen = () => {
   const history = useHistory()

@@ -5,8 +5,8 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import {
   addToCartAction,
   removeFromCartAction,
-} from '../../../redux/actions/cartActions'
-import Message from '../../shared/Message'
+} from '../../redux/actions/cartActions'
+import Message from '../uiElements/Message'
 
 const CartScreen = () => {
   const { id } = useParams()
@@ -129,7 +129,7 @@ const CartScreen = () => {
                   disabled={cartItems.length === 0}
                   onClick={hadleCheckout}
                 >
-                  PROCEED TO CHECKOUT 👈
+                  CHECKOUT 👈
                 </Button>
               </ListGroup.Item>
             </ListGroup>
