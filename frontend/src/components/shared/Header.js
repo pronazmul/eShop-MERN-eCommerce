@@ -1,8 +1,18 @@
 import React from 'react'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { IndexLinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
+import { logoutAction } from '../../redux/actions/userActions'
 
 const Header = () => {
+  const { userInfo } = useSelector((state) => state.userLogin)
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    dispatch(logoutAction())
+  }
+
   return (
     <header>
       <Navbar bg='primary' variant='dark' expand='md' collapseOnSelect>
@@ -16,12 +26,28 @@ const Header = () => {
             className='justify-content-end'
           >
             <Nav>
-              <Link className='btn btn-md btn-midium' to='/cart'>
-                <i className='fas fa-shopping-cart'></i> Cart
-              </Link>
-              <Link className='btn btn-md btn-midium' to='/login'>
-                <i className='fas fa-user'></i> Sign In
-              </Link>
+              <IndexLinkContainer to='/cart'>
+                <Nav.Link>
+                  <i className='fas fa-shopping-cart'></i> Cart
+                </Nav.Link>
+              </IndexLinkContainer>
+
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id='name'>
+                  <IndexLinkContainer to='/profile'>
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </IndexLinkContainer>
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <IndexLinkContainer to='/login'>
+                  <Nav.Link>
+                    <i className='fas fa-user'></i> Sign In
+                  </Nav.Link>
+                </IndexLinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
