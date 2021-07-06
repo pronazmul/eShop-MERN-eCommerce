@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useFormik } from 'formik'
 import loginSchema from '../yupSchemas/loginSchema'
 import FormWrapper from '../uiElements/FormWrapper'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginAction } from '../../redux/actions/userActions'
+import Loader from '../uiElements/Loader'
+import Message from '../uiElements/Message'
 
 const LoginScreen = () => {
+  const history = useHistory()
+  const location = useLocation()
+  const redirect = location.search ? history.location.search.split('=')[1] : '/'
+
+  const { loading, userInfo, error } = useSelector((state) => state.userLogin)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push(`${redirect}`)
+    }
+  }, [userInfo, redirect, history])
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -13,7 +30,7 @@ const LoginScreen = () => {
     },
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      console.log(values)
+      dispatch(loginAction(values.email, values.password))
     },
   })
 
@@ -24,7 +41,13 @@ const LoginScreen = () => {
     <FormWrapper>
       <Card>
         <Card.Header className='text-center'>
-          <h2>Login Form</h2>
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant='danger'>{error}</Message>
+          ) : (
+            <h2>Login Form</h2>
+          )}
         </Card.Header>
         <Card.Body className='mx-2'>
           <Form onSubmit={handleSubmit}>
@@ -55,7 +78,10 @@ const LoginScreen = () => {
               Login
             </Button>
           </Form>
-          Don't have account? <Link to='/register'>Resister</Link>
+          Don't have account?{' '}
+          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+            Resister
+          </Link>
         </Card.Body>
       </Card>
     </FormWrapper>
