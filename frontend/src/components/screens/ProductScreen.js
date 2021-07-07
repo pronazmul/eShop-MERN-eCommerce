@@ -7,7 +7,6 @@ import {
   ListGroup,
   ListGroupItem,
   Form,
-  Button,
 } from 'react-bootstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import Rating from '../uiElements/Rating'

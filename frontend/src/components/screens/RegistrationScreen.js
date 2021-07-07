@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import loginSchema from '../yupSchemas/loginSchema'
 import FormWrapper from '../uiElements/FormWrapper'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginAction } from '../../redux/actions/userActions'
+import { registerAction } from '../../redux/actions/userActions'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 
@@ -31,7 +31,7 @@ const RegistrationScreen = () => {
     },
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      dispatch(loginAction(values.email, values.password))
+      dispatch(registerAction(values.name, values.email, values.password))
     },
   })
 
