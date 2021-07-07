@@ -46,7 +46,7 @@ const LoginScreen = () => {
           ) : error ? (
             <Message variant='danger'>{error}</Message>
           ) : (
-            <h2>Login Form</h2>
+            <h2>Sign In</h2>
           )}
         </Card.Header>
         <Card.Body className='mx-2'>

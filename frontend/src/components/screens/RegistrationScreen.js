@@ -1,73 +1,103 @@
-import React, { useState } from 'react'
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Button, Card, Form } from 'react-bootstrap'
 import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useFormik } from 'formik'
+import loginSchema from '../yupSchemas/loginSchema'
+import FormWrapper from '../uiElements/FormWrapper'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginAction } from '../../redux/actions/userActions'
+import Loader from '../uiElements/Loader'
+import Message from '../uiElements/Message'
 
 const RegistrationScreen = () => {
-  const [formData, setFormData] = useState({})
-  console.log(formData)
+  const history = useHistory()
+  const location = useLocation()
+  const redirect = location.search ? history.location.search.split('=')[1] : '/'
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    alert(JSON.stringify(formData))
-    e.target.reset()
-  }
+  const { loading, userInfo, error } = useSelector((state) => state.userLogin)
+  const dispatch = useDispatch()
 
-  const handleBlur = (e) => {
-    const newData = { ...formData }
-    newData[e.target.name] = e.target.value
-    setFormData(newData)
-  }
+  useEffect(() => {
+    if (userInfo) {
+      history.push(`${redirect}`)
+    }
+  }, [userInfo, redirect, history])
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      dispatch(loginAction(values.email, values.password))
+    },
+  })
+
+  const { handleChange, handleBlur, handleSubmit, touched, errors, values } =
+    formik
 
   return (
-    <Container
-      style={{ height: '80vh' }}
-      className='d-flex flex-row justify-content-center align-items-center'
-    >
-      <Row className='w-100'>
-        <Col lg={6} md={12} sm={12} className='mx-auto'>
-          <Card>
-            <Card.Header className='text-center'>
-              <h2>Registration Form</h2>
-            </Card.Header>
-            <Card.Body className='mx-2'>
-              <Form>
-                <Form.Group controlId='name'>
-                  <Form.Control
-                    type='text'
-                    name='name'
-                    onBlur={handleBlur}
-                    placeholder='Enter name'
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId='email'>
-                  <Form.Control
-                    type='email'
-                    onBlur={handleBlur}
-                    name='email'
-                    placeholder='Enter email'
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId='password'>
-                  <Form.Control
-                    type='password'
-                    onBlur={handleBlur}
-                    name='password'
-                    placeholder='Password'
-                    required
-                  />
-                </Form.Group>
-                <Button type='submit' className='btn btn-blue my-3 btn-block'>
-                  register
-                </Button>
-              </Form>
-              Already have account? <Link to='/login'>Login</Link>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <FormWrapper>
+      <Card>
+        <Card.Header className='text-center'>
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant='danger'>{error}</Message>
+          ) : (
+            <h2>Sign Up</h2>
+          )}
+        </Card.Header>
+        <Card.Body className='mx-2'>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Control
+                name='name'
+                type='name'
+                placeholder='Enter name'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+                isValid={touched.name && !errors.name}
+                isInvalid={!!errors.name}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                name='email'
+                type='email'
+                placeholder='Enter email'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                isValid={touched.email && !errors.email}
+                isInvalid={!!errors.email}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                name='password'
+                type='password'
+                placeholder='Password'
+                onChange={handleChange}
+                value={values.password}
+                isValid={touched.password && !errors.password}
+                isInvalid={!!errors.password}
+              />
+            </Form.Group>
+            <Button type='submit' className='btn btn-blue my-3 btn-block'>
+              Register
+            </Button>
+          </Form>
+          Already have have account?{' '}
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+            Login
+          </Link>
+        </Card.Body>
+      </Card>
+    </FormWrapper>
   )
 }
 

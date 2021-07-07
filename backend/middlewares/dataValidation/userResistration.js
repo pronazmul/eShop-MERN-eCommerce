@@ -29,8 +29,9 @@ const userValidator = [
       }
     }),
   check('mobile')
-    .isMobilePhone('bn-BD', { strictMode: true })
-    .withMessage('Mobile number must be a bangladeshi mobile number')
+    // .isMobilePhone('bn-BD', { strictMode: true })
+    // .isMobilePhone('bn-BD')
+    // .withMessage('Mobile number must be a bangladeshi mobile number')
     .custom(async (value) => {
       try {
         const user = await User.findOne({ mobile: value })

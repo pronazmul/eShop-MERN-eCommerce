@@ -27,10 +27,28 @@ const userResisgration = async (req, res, next) => {
         password: hashedPassword,
       })
     }
+
     const result = newUser.save()
-    res.status(200).json({
-      message: 'User Resistration Successfull!',
+    const { password, ...savedUser } = newUser._doc
+
+    const userData = {
+      id: savedUser._id,
+      name: savedUser.name,
+      email: savedUser.email,
+      avatar: savedUser.avatar,
+      role: savedUser.role,
+    }
+    // Generate Token
+    const token = tokenGenerator(userData)
+
+    // Set Cookie:
+    res.cookie(process.env.COOKIE_NAME, token, {
+      maxAge: process.env.JWT_EXPIRY,
+      httpOnly: true,
+      signed: true,
     })
+
+    res.status(200).json({ ...userData, token })
   } catch (error) {
     res.status(500).json({
       errors: {
