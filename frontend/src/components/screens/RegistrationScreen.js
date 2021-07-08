@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useFormik } from 'formik'
-import loginSchema from '../yupSchemas/loginSchema'
+import registrationSchema from '../yupSchemas/registrationSchema'
 import FormWrapper from '../uiElements/FormWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerAction } from '../../redux/actions/userActions'
@@ -29,7 +29,7 @@ const RegistrationScreen = () => {
       email: '',
       password: '',
     },
-    validationSchema: loginSchema,
+    validationSchema: registrationSchema,
     onSubmit: (values) => {
       dispatch(registerAction(values.name, values.email, values.password))
     },
