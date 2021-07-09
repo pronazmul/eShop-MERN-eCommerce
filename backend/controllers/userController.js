@@ -14,7 +14,7 @@ const tokenGenerator = require('../utilities/tokenGenerator')
 const userResisgration = async (req, res, next) => {
   try {
     let newUser
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
     if (req.files && req.files.length > 0) {
       newUser = new User({
         ...req.body,
@@ -27,27 +27,22 @@ const userResisgration = async (req, res, next) => {
         password: hashedPassword,
       })
     }
-
-    const result = newUser.save()
-    const { password, ...savedUser } = newUser._doc
-
+    const result = await newUser.save()
     const userData = {
-      id: savedUser._id,
-      name: savedUser.name,
-      email: savedUser.email,
-      avatar: savedUser.avatar,
-      role: savedUser.role,
+      id: result._id,
+      name: result.name,
+      email: result.email,
+      avatar: result.avatar,
+      role: result.role,
     }
     // Generate Token
     const token = tokenGenerator(userData)
-
     // Set Cookie:
     res.cookie(process.env.COOKIE_NAME, token, {
       maxAge: process.env.JWT_EXPIRY,
       httpOnly: true,
       signed: true,
     })
-
     res.status(200).json({ ...userData, token })
   } catch (error) {
     res.status(500).json({

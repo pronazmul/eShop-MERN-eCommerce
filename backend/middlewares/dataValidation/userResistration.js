@@ -10,7 +10,7 @@ const User = require('../../models/peopleModel')
 const userValidator = [
   check('name')
     .isLength({ min: 1 })
-    .withMessage('Name is Requiered !')
+    .withMessage('Name is Required !')
     .isAlpha('en-US', { ignore: ' -' })
     .withMessage('Name must not contain anything other than alphabet !')
     .trim(),
@@ -28,20 +28,20 @@ const userValidator = [
         throw createError(error.message)
       }
     }),
-  check('mobile')
-    // .isMobilePhone('bn-BD', { strictMode: true })
-    // .isMobilePhone('bn-BD')
-    // .withMessage('Mobile number must be a bangladeshi mobile number')
-    .custom(async (value) => {
-      try {
-        const user = await User.findOne({ mobile: value })
-        if (user) {
-          throw createError('Mobile number already exist')
-        }
-      } catch (error) {
-        throw createError(error.message)
-      }
-    }),
+  // check('mobile')
+  //   .isMobilePhone('bn-BD', { strictMode: true })
+  //   .isMobilePhone('bn-BD')
+  //   .withMessage('Mobile number must be a bangladeshi mobile number')
+  //   .custom(async (value) => {
+  //     try {
+  //       const user = await User.findOne({ mobile: value })
+  //       if (user) {
+  //         throw createError('Mobile number already exist')
+  //       }
+  //     } catch (error) {
+  //       throw createError(error.message)
+  //     }
+  //   }),
   check('password')
     .isStrongPassword()
     .withMessage(
@@ -63,10 +63,10 @@ const userValidationHandler = (req, res, next) => {
         (error) => console.log(error)
       )
     }
+    res.status(500).json({
+      errors: formattedError,
+    })
   }
-  res.status(500).json({
-    errors: formattedError,
-  })
 }
 
 module.exports = { userValidator, userValidationHandler }
