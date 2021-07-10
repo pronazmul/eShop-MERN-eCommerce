@@ -7,16 +7,15 @@ const { unlink } = require('fs')
 // Internal Module
 const User = require('../../models/peopleModel')
 
-const userValidator = [
+// Validate User Data while Creating
+const registrationValidator = [
   check('name')
-    .optional()
     .isLength({ min: 1 })
     .withMessage('Name is Required !')
     .isAlpha('en-US', { ignore: ' -' })
     .withMessage('Name must not contain anything other than alphabet !')
     .trim(),
   check('email')
-    .optional()
     .isEmail()
     .withMessage('Invalid email Address !')
     .trim()
@@ -45,6 +44,29 @@ const userValidator = [
       }
     }),
   check('password')
+    .isStrongPassword()
+    .withMessage(
+      'password must be 8 character long and should contain 1 uppercase, 1 lowercase, 1 number and 1 symble '
+    ),
+]
+
+// Validate user data while updating:
+const updateValidator = [
+  check('name')
+    .optional()
+    .isAlpha('en-US', { ignore: ' -' })
+    .withMessage('Name must not contain anything other than alphabet !')
+    .trim(),
+  check('email')
+    .optional()
+    .isEmail()
+    .withMessage('Invalid email Address !')
+    .trim(),
+  check('mobile')
+    .optional()
+    .isMobilePhone('bn-BD', { strictMode: true })
+    .withMessage('Mobile number must be a bangladeshi mobile number'),
+  check('password')
     .optional()
     .isStrongPassword()
     .withMessage(
@@ -52,7 +74,8 @@ const userValidator = [
     ),
 ]
 
-const userValidationHandler = (req, res, next) => {
+// Handle User input Validation Errors
+const validationHandler = (req, res, next) => {
   const errors = validationResult(req)
   const formattedError = errors.mapped()
 
@@ -72,4 +95,4 @@ const userValidationHandler = (req, res, next) => {
   }
 }
 
-module.exports = { userValidator, userValidationHandler }
+module.exports = { registrationValidator, validationHandler, updateValidator }

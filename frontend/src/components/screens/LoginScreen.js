@@ -69,6 +69,7 @@ const LoginScreen = () => {
                 type='password'
                 placeholder='Password'
                 onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.password}
                 isValid={touched.password && !errors.password}
                 isInvalid={!!errors.password}

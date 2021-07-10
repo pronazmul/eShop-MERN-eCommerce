@@ -4,9 +4,10 @@ const router = express.Router()
 
 // Internal Modules:
 const {
-  userValidator,
-  userValidationHandler,
-} = require('../middlewares/dataValidation/userResistration')
+  registrationValidator,
+  validationHandler,
+  updateValidator,
+} = require('../middlewares/dataValidation/dataValidation')
 const {
   userResisgration,
   userLogin,
@@ -18,20 +19,19 @@ const authGuard = require('../middlewares/common/authMiddleware')
 
 router
   .route('/')
-  .post(avatarUpload, userValidator, userValidationHandler, userResisgration)
+  .post(
+    avatarUpload,
+    registrationValidator,
+    validationHandler,
+    userResisgration
+  )
 
 router.post('/login', userLogin)
 
 router
   .route('/profile')
   .get(authGuard, getUser)
-  .put(
-    authGuard,
-    avatarUpload,
-    userValidator,
-    userValidationHandler,
-    updateUser
-  )
+  .put(authGuard, avatarUpload, updateValidator, validationHandler, updateUser)
 
 // Export Module:
 module.exports = router

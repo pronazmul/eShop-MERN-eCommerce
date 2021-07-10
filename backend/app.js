@@ -3,6 +3,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 const colors = require('colors')
+const path = require('path')
 
 // Internal Modules:
 const {
@@ -19,6 +20,9 @@ dotenv.config()
 
 // MongoDB Connection:
 mongoConnection()
+
+// Make Static Public Accessible Folder
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Request Parser
 app.use(express.json())

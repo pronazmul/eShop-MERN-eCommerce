@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { IndexLinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
@@ -25,7 +25,7 @@ const Header = () => {
             id='basic-navbar-nav'
             className='justify-content-end'
           >
-            <Nav>
+            <Nav className='align-items-center'>
               <IndexLinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i> Cart
@@ -33,14 +33,22 @@ const Header = () => {
               </IndexLinkContainer>
 
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id='name'>
-                  <IndexLinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </IndexLinkContainer>
-                  <NavDropdown.Item onClick={handleLogout}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
+                <>
+                  <Image
+                    src={`uploads/avatars/${userInfo.avatar}`}
+                    roundedCircle
+                    width='40'
+                    height='40'
+                  />
+                  <NavDropdown title={userInfo.name} id='name'>
+                    <IndexLinkContainer to='/profile'>
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </IndexLinkContainer>
+                    <NavDropdown.Item onClick={handleLogout}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
               ) : (
                 <IndexLinkContainer to='/login'>
                   <Nav.Link>

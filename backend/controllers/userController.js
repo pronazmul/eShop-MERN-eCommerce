@@ -133,9 +133,23 @@ const updateUser = async (req, res, next) => {
         user.password = await bcrypt.hash(req.body.password, 10)
       }
       const result = await user.save()
-      res
-        .status(200)
-        .json({ message: 'User Updated Successfully', user: { ...result } })
+      const userData = {
+        id: result._id,
+        name: result.name,
+        email: result.email,
+        avatar: result.avatar,
+        role: result.role,
+      }
+      // Generate Token
+      const token = tokenGenerator(userData)
+
+      // Set Cookie:
+      res.cookie(process.env.COOKIE_NAME, token, {
+        maxAge: process.env.JWT_EXPIRY,
+        httpOnly: true,
+        signed: true,
+      })
+      res.status(200).json({ ...userData, token })
     } else {
       res.status(404).json({
         errors: {
