@@ -1,6 +1,8 @@
 // External Modules:
 const bcrypt = require('bcrypt')
 const createHttpError = require('http-errors')
+const { unlink } = require('fs')
+const path = require('path')
 
 // Internal Modules:
 const User = require('../models/peopleModel')
@@ -103,9 +105,56 @@ const userLogin = async (req, res, next) => {
  * @Route  GET /api/user/profile
  * @access protected
  */
-const getUser = (req, res, next) => {
-  res.send(req.user)
+const getUser = async (req, res, next) => {
+  res.status(200).json({ ...req.user })
+}
+
+/**
+ * @desc   Update User
+ * @Route  PUT /api/user/profile
+ * @access protected
+ */
+const updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+    if (user) {
+      user.name = req.body.name || req.user.name
+      user.email = req.body.email || req.user.email
+      if (req.files && req.files.length > 0) {
+        unlink(
+          path.join(__dirname, `/../public/uploads/avatars/${req.user.avatar}`),
+          (err) => {
+            if (err) console.log(err)
+          }
+        )
+        user.avatar = req.files[0].filename
+      }
+      if (req.body.password) {
+        user.password = await bcrypt.hash(req.body.password, 10)
+      }
+      const result = await user.save()
+      res
+        .status(200)
+        .json({ message: 'User Updated Successfully', user: { ...result } })
+    } else {
+      res.status(404).json({
+        errors: {
+          common: {
+            msg: 'Unknown User',
+          },
+        },
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      errors: {
+        common: {
+          msg: 'Unknown error occured!',
+        },
+      },
+    })
+  }
 }
 
 // Module Export
-module.exports = { userResisgration, userLogin, getUser }
+module.exports = { userResisgration, userLogin, getUser, updateUser }

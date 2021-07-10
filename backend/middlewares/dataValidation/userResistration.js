@@ -9,12 +9,14 @@ const User = require('../../models/peopleModel')
 
 const userValidator = [
   check('name')
+    .optional()
     .isLength({ min: 1 })
     .withMessage('Name is Required !')
     .isAlpha('en-US', { ignore: ' -' })
     .withMessage('Name must not contain anything other than alphabet !')
     .trim(),
   check('email')
+    .optional()
     .isEmail()
     .withMessage('Invalid email Address !')
     .trim()
@@ -28,21 +30,22 @@ const userValidator = [
         throw createError(error.message)
       }
     }),
-  // check('mobile')
-  //   .isMobilePhone('bn-BD', { strictMode: true })
-  //   .isMobilePhone('bn-BD')
-  //   .withMessage('Mobile number must be a bangladeshi mobile number')
-  //   .custom(async (value) => {
-  //     try {
-  //       const user = await User.findOne({ mobile: value })
-  //       if (user) {
-  //         throw createError('Mobile number already exist')
-  //       }
-  //     } catch (error) {
-  //       throw createError(error.message)
-  //     }
-  //   }),
+  check('mobile')
+    .optional()
+    .isMobilePhone('bn-BD', { strictMode: true })
+    .withMessage('Mobile number must be a bangladeshi mobile number')
+    .custom(async (value) => {
+      try {
+        const user = await User.findOne({ mobile: value })
+        if (user) {
+          throw createError('Mobile number already exist')
+        }
+      } catch (error) {
+        throw createError(error.message)
+      }
+    }),
   check('password')
+    .optional()
     .isStrongPassword()
     .withMessage(
       'password must be 8 character long and should contain 1 uppercase, 1 lowercase, 1 number and 1 symble '

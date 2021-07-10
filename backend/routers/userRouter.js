@@ -11,6 +11,7 @@ const {
   userResisgration,
   userLogin,
   getUser,
+  updateUser,
 } = require('../controllers/userController')
 const avatarUpload = require('../middlewares/uploadValidation/avatarUpload')
 const authGuard = require('../middlewares/common/authMiddleware')
@@ -21,7 +22,16 @@ router
 
 router.post('/login', userLogin)
 
-router.route('/profile').get(authGuard, getUser)
+router
+  .route('/profile')
+  .get(authGuard, getUser)
+  .put(
+    authGuard,
+    avatarUpload,
+    userValidator,
+    userValidationHandler,
+    updateUser
+  )
 
 // Export Module:
 module.exports = router
