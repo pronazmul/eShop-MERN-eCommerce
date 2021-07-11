@@ -59,9 +59,12 @@ const LoginScreen = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
-                isValid={touched.email && !errors.email}
-                isInvalid={!!errors.email}
+                isValid={values.email.length !== 0 && !errors.email}
+                isInvalid={values.email.length !== 0 && errors.email}
               />
+              {values.email.length !== 0 && errors.email && (
+                <Form.Text className='text-danger'>{errors.email}</Form.Text>
+              )}
             </Form.Group>
             <Form.Group>
               <Form.Control
@@ -71,9 +74,12 @@ const LoginScreen = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
-                isValid={touched.password && !errors.password}
-                isInvalid={!!errors.password}
+                isValid={values.password.length !== 0 && !errors.password}
+                isInvalid={values.password.length !== 0 && errors.password}
               />
+              {values.password.length !== 0 && errors.password && (
+                <Form.Text className='text-danger'>{errors.password}</Form.Text>
+              )}
             </Form.Group>
             <Button type='submit' className='btn btn-blue my-3 btn-block'>
               Login

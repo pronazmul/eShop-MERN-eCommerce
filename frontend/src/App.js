@@ -13,6 +13,7 @@ import LoginScreen from './components/screens/LoginScreen'
 import ProductScreen from './components/screens/ProductScreen'
 import CartScreen from './components/screens/CartScreen'
 import RegistrationScreen from './components/screens/RegistrationScreen'
+import ProfileScreen from './components/screens/ProfileScreen'
 
 const App = () => {
   return (
@@ -21,11 +22,12 @@ const App = () => {
       <Container>
         <main className='py-2'>
           <Switch>
-            <Route exact path='/' component={HomeScreen} />
+            <Route path='/profile' component={ProfileScreen} />
             <Route path='/login' component={LoginScreen} />
             <Route path='/register' component={RegistrationScreen} />
             <Route path='/product/:id' component={ProductScreen} />
             <Route path='/cart/:id?' component={CartScreen} />
+            <Route exact path='/' component={HomeScreen} />
             <Route path='*'>
               <Redirect to='/' />
             </Route>
