@@ -61,6 +61,7 @@ const LoginScreen = () => {
                 value={values.email}
                 isValid={values.email.length !== 0 && !errors.email}
                 isInvalid={values.email.length !== 0 && errors.email}
+                required
               />
               {values.email.length !== 0 && errors.email && (
                 <Form.Text className='text-danger'>{errors.email}</Form.Text>
@@ -76,6 +77,7 @@ const LoginScreen = () => {
                 value={values.password}
                 isValid={values.password.length !== 0 && !errors.password}
                 isInvalid={values.password.length !== 0 && errors.password}
+                required
               />
               {values.password.length !== 0 && errors.password && (
                 <Form.Text className='text-danger'>{errors.password}</Form.Text>

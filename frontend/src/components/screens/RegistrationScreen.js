@@ -62,6 +62,7 @@ const RegistrationScreen = () => {
                 value={values.name}
                 isValid={values.name.length !== 0 && !errors.name}
                 isInvalid={values.name.length !== 0 && errors.name}
+                required
               />
               {values.name.length !== 0 && errors.name && (
                 <Form.Text className='text-danger'>{errors.name}</Form.Text>
@@ -77,6 +78,7 @@ const RegistrationScreen = () => {
                 value={values.email}
                 isValid={values.email.length !== 0 && !errors.email}
                 isInvalid={values.email.length !== 0 && errors.email}
+                required
               />
               {values.email.length !== 0 && errors.email && (
                 <Form.Text className='text-danger'>{errors.email}</Form.Text>
@@ -91,6 +93,7 @@ const RegistrationScreen = () => {
                 value={values.password}
                 isValid={values.password.length !== 0 && !errors.password}
                 isInvalid={values.password.length !== 0 && errors.password}
+                required
               />
               {values.password.length !== 0 && errors.password && (
                 <Form.Text className='text-danger'>{errors.password}</Form.Text>
