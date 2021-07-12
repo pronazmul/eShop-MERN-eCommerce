@@ -3,26 +3,32 @@ import React, { useEffect, useState } from 'react'
 import { Card, Col, Row, Form, Button, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { userDetailsAction } from '../../redux/actions/userActions'
+import {
+  userDetailsAction,
+  userProfileUpdateAction,
+} from '../../redux/actions/userActions'
+import { USER_PROFILE_UPDATE_RESET } from '../../redux/constants/userConstants'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import updateSchema from './../yupSchemas/updateSchema'
+import Toaster from './../uiElements/Toaster'
 
 const ProfileScreen = () => {
   const history = useHistory()
   const { userInfo } = useSelector((state) => state.userLogin)
-  const [updateActive, setUpdateActive] = useState(true)
+
+  const { loading, error, user } = useSelector((state) => state.userDetails)
+  const { success } = useSelector((state) => state.userProfileUpdate)
 
   const dispatch = useDispatch()
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
-    } else {
+    } else if (!user.name || success) {
+      dispatch({ type: USER_PROFILE_UPDATE_RESET })
       dispatch(userDetailsAction())
     }
-  }, [userInfo, dispatch])
-  const { loading, error, user } = useSelector((state) => state.userDetails)
-
+  }, [userInfo, dispatch, success])
   //   Formik Data manage & YUP Validation:
   const formik = useFormik({
     initialValues: {
@@ -32,13 +38,14 @@ const ProfileScreen = () => {
       confirmPassword: '',
     },
     validationSchema: updateSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       if (Object.keys(values).filter((key) => values[key]).length !== 0) {
         if (values.password === values.confirmPassword) {
-          let data = Object.keys(values)
+          let user = Object.keys(values)
             .filter((k) => values[k] != '')
             .reduce((a, k) => ({ ...a, [k]: values[k] }), {})
-          alert(JSON.stringify(data))
+          dispatch(userProfileUpdateAction(user))
+          resetForm()
         } else {
           return false
         }
@@ -64,7 +71,10 @@ const ProfileScreen = () => {
               <Card.Header className='text-center'>
                 <h2>Update Profile</h2>
               </Card.Header>
-              <Card.Body className='mx-2'>
+              <Card.Body className='mx-2 text-center'>
+                {success && (
+                  <Toaster variant='success' message='Profile Updated' />
+                )}
                 <Image
                   src={`uploads/avatars/${user.avatar}`}
                   alt='Profile'
@@ -144,21 +154,9 @@ const ProfileScreen = () => {
                       </Form.Text>
                     )}
                   </Form.Group>
-                  {updateActive ? (
-                    <Button
-                      type='submit'
-                      className='btn btn-blue my-3 btn-block'
-                    >
-                      Update Profile
-                    </Button>
-                  ) : (
-                    <Button
-                      type='submit'
-                      className='btn btn-blue my-3 btn-block disabled'
-                    >
-                      Update Profile
-                    </Button>
-                  )}
+                  <Button type='submit' className='btn btn-blue my-3 btn-block'>
+                    Update Profile
+                  </Button>
                 </Form>
               </Card.Body>
             </Card>
