@@ -14,6 +14,7 @@ import ProductScreen from './components/screens/ProductScreen'
 import CartScreen from './components/screens/CartScreen'
 import RegistrationScreen from './components/screens/RegistrationScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
+import ShippingScreen from './components/screens/ShippingScreen'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <Container>
         <main className='py-2'>
           <Switch>
+            <Route path='/shipping' component={ShippingScreen} />
             <Route path='/profile' component={ProfileScreen} />
             <Route path='/login' component={LoginScreen} />
             <Route path='/register' component={RegistrationScreen} />
