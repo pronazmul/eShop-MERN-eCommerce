@@ -28,7 +28,7 @@ const addNewOrder = asyncHandler(async (req, res, next) => {
 const getOrderByID = asyncHandler(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate(
     'user',
-    'name, email, avatar'
+    'name email avatar'
   )
   if (order) {
     res.status(200).json(order)

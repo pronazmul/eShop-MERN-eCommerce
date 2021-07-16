@@ -44,6 +44,7 @@ const PlaceOrderScreen = () => {
       shippingPrice,
       taxPrice,
       totalPrice,
+      itemsPrice,
     } = cart
     dispatch(
       orderCreateAction({
@@ -53,6 +54,7 @@ const PlaceOrderScreen = () => {
         shippingPrice,
         taxPrice,
         totalPrice,
+        itemsPrice,
       })
     )
   }
