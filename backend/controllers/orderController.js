@@ -1,9 +1,9 @@
 // External Modules:
 const asyncHandler = require('express-async-handler')
 const createHttpError = require('http-errors')
-const Order = require('../models/orderModel')
 
 // Internal Modules:
+const Order = require('../models/orderModel')
 
 /**
  * @desc   Place an order
@@ -20,5 +20,22 @@ const addNewOrder = asyncHandler(async (req, res, next) => {
   }
 })
 
+/**
+ * @desc   GET Order By ID
+ * @Route  GET api/orders
+ * @access private
+ */
+const getOrderByID = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name, email, avatar'
+  )
+  if (order) {
+    res.status(200).json(order)
+  } else {
+    next(createHttpError(404, 'No Order Found'))
+  }
+})
+
 // Module Export:
-module.exports = { addNewOrder }
+module.exports = { addNewOrder, getOrderByID }

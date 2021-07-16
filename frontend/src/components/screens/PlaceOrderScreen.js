@@ -7,9 +7,11 @@ import CheckoutSteps from './CheckoutSteps'
 import { orderCreateAction } from './../../redux/actions/orderActions'
 
 const PlaceOrderScreen = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const cart = useSelector((state) => state.cart)
   const { cartItems, shippingAddress, paymentMethod } = cart
+  const { order, success } = useSelector((state) => state.orderCreate)
 
   //  Calculate Prices
   //   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2)
@@ -28,10 +30,12 @@ const PlaceOrderScreen = () => {
   useEffect(() => {
     if (!paymentMethod) {
       history.push('/payment')
+    } else if (success) {
+      history.push(`/order/${order._id}`)
     }
-  }, [paymentMethod])
+  }, [paymentMethod, success, order])
 
-  const dispatch = useDispatch()
+  // Order Handler
   const handlePlaceOrder = () => {
     const {
       cartItems: orderItems,
