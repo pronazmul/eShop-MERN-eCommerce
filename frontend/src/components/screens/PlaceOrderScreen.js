@@ -4,13 +4,14 @@ import { Button, Row, Col, Image, ListGroup } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CheckoutSteps from './CheckoutSteps'
+import { orderCreateAction } from './../../redux/actions/orderActions'
 
 const PlaceOrderScreen = () => {
   const history = useHistory()
   const cart = useSelector((state) => state.cart)
   const { cartItems, shippingAddress, paymentMethod } = cart
 
-  //   Calculate Prices
+  //  Calculate Prices
   //   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2)
 
   cart.itemsPrice = Number(
@@ -31,7 +32,26 @@ const PlaceOrderScreen = () => {
   }, [paymentMethod])
 
   const dispatch = useDispatch()
-  const handlePlaceOrder = () => alert(JSON.stringify(cart))
+  const handlePlaceOrder = () => {
+    const {
+      cartItems: orderItems,
+      shippingAddress,
+      paymentMethod,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+    } = cart
+    dispatch(
+      orderCreateAction({
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
+      })
+    )
+  }
 
   return (
     <>

@@ -12,6 +12,7 @@ const {
 } = require('./middlewares/common/errorHandler')
 const productRouter = require('./routers/productRouter')
 const userRouter = require('./routers/userRouter')
+const orderRouter = require('./routers/orderRouter')
 const mongoConnection = require('./config/db')
 
 // Configuration
@@ -33,6 +34,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 // Application Routing:
 app.use('/api/products', productRouter)
 app.use('/api/user', userRouter)
+app.use('/api/orders', orderRouter)
 
 // Not Found Handler:
 app.use(notFoundHandler)
