@@ -16,6 +16,7 @@ import RegistrationScreen from './components/screens/RegistrationScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
 import ShippingScreen from './components/screens/ShippingScreen'
 import PaymentScreen from './components/screens/PaymentScreen'
+import PlaceOrderScreen from './components/screens/PlaceOrderScreen'
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       <Container>
         <main className='py-2'>
           <Switch>
+            <Route path='/placeorder' component={PlaceOrderScreen} />
             <Route path='/payment' component={PaymentScreen} />
             <Route path='/shipping' component={ShippingScreen} />
             <Route path='/profile' component={ProfileScreen} />
