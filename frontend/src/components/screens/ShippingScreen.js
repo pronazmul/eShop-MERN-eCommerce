@@ -5,7 +5,8 @@ import { useFormik } from 'formik'
 import FormWrapper from '../uiElements/FormWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import shippingSchema from './../yupSchemas/shippingSchema'
-import { saveShippingCartAction } from '../../redux/actions/cartActions'
+import { saveShippingAddressAction } from '../../redux/actions/cartActions'
+import CheckoutSteps from './CheckoutSteps'
 
 const ShippingScreen = () => {
   const history = useHistory()
@@ -23,14 +24,15 @@ const ShippingScreen = () => {
 
   const formik = useFormik({
     initialValues: {
-      address: '',
-      city: '',
-      postalCode: '',
-      country: '',
+      address: shippingAddress.address ? shippingAddress.address : '',
+      city: shippingAddress.city ? shippingAddress.city : '',
+      postalCode: shippingAddress.postalCode ? shippingAddress.postalCode : '',
+      country: shippingAddress.country ? shippingAddress.country : '',
     },
     validationSchema: shippingSchema,
     onSubmit: (values) => {
-      dispatch(saveShippingCartAction(values))
+      dispatch(saveShippingAddressAction(values))
+      history.push('/payment')
     },
   })
 
@@ -38,6 +40,7 @@ const ShippingScreen = () => {
 
   return (
     <FormWrapper>
+      <CheckoutSteps step1 step2 />
       <Card>
         <Card.Header className='text-center'>
           <h2>Shipping</h2>
@@ -61,9 +64,7 @@ const ShippingScreen = () => {
                 required
               />
               {values.address.length !== 0 && errors.address && (
-                <Form.Text classaddress='text-danger'>
-                  {errors.address}
-                </Form.Text>
+                <Form.Text className='text-danger'>{errors.address}</Form.Text>
               )}
             </Form.Group>
             <Form.Group>
