@@ -13,6 +13,7 @@ const {
 const productRouter = require('./routers/productRouter')
 const userRouter = require('./routers/userRouter')
 const orderRouter = require('./routers/orderRouter')
+const configRouter = require('./routers/configRouter')
 const mongoConnection = require('./config/db')
 
 // Configuration
@@ -35,6 +36,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use('/api/products', productRouter)
 app.use('/api/user', userRouter)
 app.use('/api/orders', orderRouter)
+app.use('/api/config', configRouter)
 
 // Not Found Handler:
 app.use(notFoundHandler)
