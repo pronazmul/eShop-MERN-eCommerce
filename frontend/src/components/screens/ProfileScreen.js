@@ -1,6 +1,6 @@
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Row, Form, Button, Image } from 'react-bootstrap'
+import { Card, Col, Row, Form, Button, Image, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import {
@@ -12,13 +12,20 @@ import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import updateSchema from './../yupSchemas/updateSchema'
 import Toaster from './../uiElements/Toaster'
+import { orderListMyAction } from '../../redux/actions/orderActions'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const ProfileScreen = () => {
   const history = useHistory()
   const { userInfo } = useSelector((state) => state.userLogin)
-
   const { loading, error, user } = useSelector((state) => state.userDetails)
   const { success } = useSelector((state) => state.userProfileUpdate)
+  const {
+    loading: loadingOrder,
+    error: errorOrder,
+    orders,
+  } = useSelector((state) => state.orderListMy)
+  console.log(orders)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -27,6 +34,7 @@ const ProfileScreen = () => {
     } else if (!user.name || success) {
       dispatch({ type: USER_PROFILE_UPDATE_RESET })
       dispatch(userDetailsAction())
+      dispatch(orderListMyAction())
     }
   }, [userInfo, dispatch, success])
   //   Formik Data manage & YUP Validation:
@@ -166,9 +174,65 @@ const ProfileScreen = () => {
               <Card.Header className='text-center'>
                 <h2>Orders</h2>
               </Card.Header>
-              <Card.Body>
-                <h4>Nothing Ordered Yet!</h4>
-              </Card.Body>
+              {loadingOrder ? (
+                <Loader />
+              ) : errorOrder ? (
+                <Message variant='danger'>{errorOrder}</Message>
+              ) : (
+                <Card.Body>
+                  <Table responsive striped bordered hover size='md'>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>DATE</th>
+                        <th>TOTAL</th>
+                        <th>PAID</th>
+                        <th>DELIVERED</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map((item) => (
+                        <tr key={item._id} className='text-center'>
+                          <td>{item._id}</td>
+                          <td>{item.createdAt.substring(0, 10)}</td>
+                          <td>${item.totalPrice}</td>
+                          <td>
+                            {item.isPaid ? (
+                              item.paidAt.substring(0, 10)
+                            ) : (
+                              <i
+                                className='fas fa-times'
+                                style={{ color: 'red' }}
+                              ></i>
+                            )}
+                          </td>
+                          <td>
+                            {item.isDelivered ? (
+                              item.deliveredAt.substring(0, 10)
+                            ) : (
+                              <i
+                                className='fas fa-times'
+                                style={{ color: 'red' }}
+                              ></i>
+                            )}
+                          </td>
+                          <td>
+                            <LinkContainer to={`/order/${item._id}`}>
+                              <Button
+                                variant='light'
+                                className='btn-sm d-block mx-auto'
+                              >
+                                Details
+                              </Button>
+                            </LinkContainer>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              )}
             </Card>
           </Col>
         </Row>
