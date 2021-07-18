@@ -5,12 +5,21 @@ import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import { userListAction } from '../../redux/actions/userActions'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useHistory } from 'react-router-dom'
+import { USER_LIST_RESET } from './../../redux/constants/userConstants'
 
 const UserListScreen = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
+  const { userInfo } = useSelector((state) => state.userLogin)
 
   useEffect(() => {
-    dispatch(userListAction())
+    if (userInfo && userInfo.role === 'admin') {
+      dispatch({ type: USER_LIST_RESET })
+      dispatch(userListAction())
+    } else {
+      history.push('/')
+    }
   }, [dispatch])
 
   const { loading, error, users } = useSelector((state) => state.userList)
