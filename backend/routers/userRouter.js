@@ -13,9 +13,11 @@ const {
   userLogin,
   getUser,
   updateUser,
+  getAllUser,
 } = require('../controllers/userController')
 const avatarUpload = require('../middlewares/uploadValidation/avatarUpload')
 const authGuard = require('../middlewares/common/authMiddleware')
+const checkRole = require('../middlewares/common/checkRole')
 
 router
   .route('/')
@@ -25,6 +27,8 @@ router
     validationHandler,
     userResisgration
   )
+
+router.get('/', authGuard, checkRole('admin'), getAllUser)
 
 router.post('/login', userLogin)
 

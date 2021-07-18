@@ -7,9 +7,10 @@ const path = require('path')
 // Internal Modules:
 const User = require('../models/peopleModel')
 const tokenGenerator = require('../utilities/tokenGenerator')
+const expressAsyncHandler = require('express-async-handler')
 
 /**
- * @desc   Store Resistered Users
+ * @desc   Resister New User & Logged in auth token
  * @Route  POST /api/user/
  * @access public
  */
@@ -58,7 +59,7 @@ const userResisgration = async (req, res, next) => {
 }
 
 /**
- * @desc   User Logged id with jwt token
+ * @desc   Login a user with auth token
  * @Route  POST /api/user/login
  * @access public
  */
@@ -110,7 +111,17 @@ const getUser = async (req, res, next) => {
 }
 
 /**
- * @desc   Update User
+ * @desc   Get All users Admin Only
+ * @Route  GET /api/user
+ * @access protected/Admin
+ */
+const getAllUser = expressAsyncHandler(async (req, res, next) => {
+  const user = await User.find({})
+  res.status(200).json(user)
+})
+
+/**
+ * @desc   Update User with auth token
  * @Route  PUT /api/user/profile
  * @access protected
  */
@@ -171,4 +182,10 @@ const updateUser = async (req, res, next) => {
 }
 
 // Module Export
-module.exports = { userResisgration, userLogin, getUser, updateUser }
+module.exports = {
+  userResisgration,
+  userLogin,
+  getUser,
+  updateUser,
+  getAllUser,
+}

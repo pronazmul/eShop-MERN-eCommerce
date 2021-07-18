@@ -37,7 +37,7 @@ const OrderScreen = () => {
       document.body.appendChild(script)
     }
 
-    if (!order || successPay) {
+    if (!order || order._id !== id || successPay) {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch(orderDetailsAction(id))
     } else if (!order.isPaid) {
