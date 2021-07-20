@@ -64,9 +64,6 @@ const Header = () => {
                     <NavDropdown.Item>User List</NavDropdown.Item>
                   </IndexLinkContainer>
                   <IndexLinkContainer to='/admin/productList'>
-                    <NavDropdown.Item>Product</NavDropdown.Item>
-                  </IndexLinkContainer>
-                  <IndexLinkContainer to='/admin/productList'>
                     <NavDropdown.Item>Product List</NavDropdown.Item>
                   </IndexLinkContainer>
                 </NavDropdown>
