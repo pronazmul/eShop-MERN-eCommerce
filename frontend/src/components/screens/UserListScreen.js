@@ -3,7 +3,10 @@ import { Row, Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
-import { userListAction } from '../../redux/actions/userActions'
+import {
+  userDeleteAction,
+  userListAction,
+} from '../../redux/actions/userActions'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { USER_LIST_RESET } from './../../redux/constants/userConstants'
@@ -12,6 +15,10 @@ const UserListScreen = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.userLogin)
+  const { loading, error, users } = useSelector((state) => state.userList)
+  const { success: userDeleteSuccess } = useSelector(
+    (state) => state.userDelete
+  )
 
   useEffect(() => {
     if (userInfo && userInfo.role === 'admin') {
@@ -20,11 +27,13 @@ const UserListScreen = () => {
     } else {
       history.push('/')
     }
-  }, [dispatch])
+  }, [dispatch, userDeleteSuccess, userInfo])
 
-  const { loading, error, users } = useSelector((state) => state.userList)
-
-  const userDeleteHandler = (id) => alert(`Deleted Succesfully ${id}`)
+  const userDeleteHandler = (id) => {
+    if (window.confirm('Are you sure!')) {
+      dispatch(userDeleteAction(id))
+    }
+  }
 
   return (
     <>
@@ -59,7 +68,7 @@ const UserListScreen = () => {
                   </td>
                   <td>{user.role}</td>
                   <td>
-                    <LinkContainer to={`/user/${user._id}/edit`}>
+                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
                       <Button variant='light' className='btn-sm mx-auto'>
                         <i className='fas fa-edit'></i>
                       </Button>

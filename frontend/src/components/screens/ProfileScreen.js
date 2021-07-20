@@ -25,7 +25,6 @@ const ProfileScreen = () => {
     error: errorOrder,
     orders,
   } = useSelector((state) => state.orderListMy)
-  console.log(orders)
 
   const dispatch = useDispatch()
   useEffect(() => {

@@ -106,18 +106,8 @@ const userLogin = async (req, res, next) => {
  * @Route  GET /api/user/profile
  * @access protected
  */
-const getUser = async (req, res, next) => {
+const getUser = expressAsyncHandler(async (req, res, next) => {
   res.status(200).json({ ...req.user })
-}
-
-/**
- * @desc   Get All users Admin Only
- * @Route  GET /api/user
- * @access protected/Admin
- */
-const getAllUser = expressAsyncHandler(async (req, res, next) => {
-  const user = await User.find({})
-  res.status(200).json(user)
 })
 
 /**
@@ -125,7 +115,7 @@ const getAllUser = expressAsyncHandler(async (req, res, next) => {
  * @Route  PUT /api/user/profile
  * @access protected
  */
-const updateUser = async (req, res, next) => {
+const updateUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
     if (user) {
@@ -181,11 +171,115 @@ const updateUser = async (req, res, next) => {
   }
 }
 
+/**
+ * @desc   Get All users Admin Only
+ * @Route  GET /api/user
+ * @access protected/Admin
+ */
+const getAllUser = expressAsyncHandler(async (req, res, next) => {
+  const user = await User.find({})
+  res.status(200).json(user)
+})
+
+/**
+ * @desc   Delete A user Admin Only
+ * @Route  DELETE /api/user/:id
+ * @access protected/Admin
+ */
+const deleteUser = expressAsyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id)
+  if (user) {
+    user.remove()
+    res.status(200).json({ msg: 'User Removed Successfully!' })
+  } else {
+    res.status(404).json({
+      errors: {
+        common: {
+          msg: 'User Not Exists',
+        },
+      },
+    })
+  }
+})
+
+/**
+ * @desc   Get User By ID
+ * @Route  GET /api/user/:id
+ * @access protected/Admin
+ */
+const getUserById = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password')
+    if (user) {
+      res.status(200).json(user)
+    } else {
+      res.status(404).json({
+        errors: {
+          common: {
+            msg: 'User Not Found!',
+          },
+        },
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      errors: {
+        common: {
+          msg: 'Unknown error occured!',
+        },
+      },
+    })
+  }
+}
+
+/**
+ * @desc   Get User By ID
+ * @Route  PUT /api/user/:id/
+ * @access protected/Admin
+ */
+const updateUserByAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (user) {
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
+      user.role = req.body.role || user.role
+      const updatedUser = await user.save()
+      const userData = {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      }
+      res.status(200).json(userData)
+    } else {
+      res.status(404).json({
+        errors: {
+          common: {
+            msg: 'Unknown User',
+          },
+        },
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      errors: {
+        common: {
+          msg: 'Unknown error occured!',
+        },
+      },
+    })
+  }
+}
+
 // Module Export
 module.exports = {
   userResisgration,
   userLogin,
   getUser,
-  updateUser,
+  updateUserProfile,
   getAllUser,
+  deleteUser,
+  getUserById,
+  updateUserByAdmin,
 }

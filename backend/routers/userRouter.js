@@ -12,8 +12,11 @@ const {
   userResisgration,
   userLogin,
   getUser,
-  updateUser,
+  updateUserProfile,
   getAllUser,
+  deleteUser,
+  getUserById,
+  updateUserByAdmin,
 } = require('../controllers/userController')
 const avatarUpload = require('../middlewares/uploadValidation/avatarUpload')
 const authGuard = require('../middlewares/common/authMiddleware')
@@ -27,15 +30,22 @@ router
     validationHandler,
     userResisgration
   )
-
-router.get('/', authGuard, checkRole('admin'), getAllUser)
-
-router.post('/login', userLogin)
-
+router.route('/login').post(userLogin)
+router.route('/profile').get(authGuard, getUser)
 router
   .route('/profile')
-  .get(authGuard, getUser)
-  .put(authGuard, avatarUpload, updateValidator, validationHandler, updateUser)
+  .put(
+    authGuard,
+    avatarUpload,
+    updateValidator,
+    validationHandler,
+    updateUserProfile
+  )
+// Admin Routes
+router.route('/').get(authGuard, checkRole('admin'), getAllUser)
+router.route('/:id').delete(authGuard, checkRole('admin'), deleteUser)
+router.route('/:id').get(authGuard, checkRole('admin'), getUserById)
+router.route('/:id').put(authGuard, checkRole('admin'), updateUserByAdmin)
 
 // Export Module:
 module.exports = router
