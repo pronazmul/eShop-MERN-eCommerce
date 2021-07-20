@@ -7,18 +7,35 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import updateSchema from '../yupSchemas/updateSchema'
-import { userDetailsAction } from '../../redux/actions/userActions'
+import {
+  userDetailsAction,
+  userUpdateAction,
+} from '../../redux/actions/userActions'
+import {
+  USER_DETAILS_RESET,
+  USER_UPDATE_RESET,
+} from '../../redux/constants/userConstants'
 
 const UserEditScreen = () => {
   const history = useHistory()
   const { id } = useParams()
   const dispatch = useDispatch()
   const { loading, user, error } = useSelector((state) => state.userDetails)
-  console.log(user)
+  const {
+    loading: updateLoading,
+    success: updateSuccess,
+    error: updateError,
+  } = useSelector((state) => state.userUpdate)
 
   useEffect(() => {
-    if (!user || user._id !== id) {
-      dispatch(userDetailsAction(id))
+    if (updateSuccess) {
+      dispatch({ type: USER_UPDATE_RESET })
+      dispatch({ type: USER_DETAILS_RESET })
+      history.push('/admin/userlist')
+    } else {
+      if (!user || user._id !== id) {
+        dispatch(userDetailsAction(id))
+      }
     }
   }, [dispatch, user, id])
 
@@ -28,11 +45,11 @@ const UserEditScreen = () => {
         Go Back
       </Link>
       <FormWrapper>
-        {loading ? (
+        {loading || updateLoading ? (
           <Loader />
-        ) : error ? (
-          <Message variant='danger'>{error}</Message>
-        ) : (
+        ) : error || updateError ? (
+          <Message variant='danger'>{error || updateError}</Message>
+        ) : user ? (
           <Card>
             <Card.Header className='text-center'>
               <h2>Update User</h2>
@@ -46,7 +63,8 @@ const UserEditScreen = () => {
                 }}
                 validationSchema={updateSchema}
                 onSubmit={(values) => {
-                  alert(JSON.stringify(values))
+                  console.log(values)
+                  dispatch(userUpdateAction(user._id, values))
                 }}
               >
                 {({ values, errors, handleChange, handleSubmit }) => (
@@ -57,10 +75,10 @@ const UserEditScreen = () => {
                         type='name'
                         onChange={handleChange}
                         value={values.name}
-                        isValid={values.name.length !== 0 && !errors.name}
-                        isInvalid={values.name.length !== 0 && errors.name}
+                        isValid={!errors.name}
+                        isInvalid={errors.name}
                       />
-                      {values.name.length !== 0 && errors.name && (
+                      {errors.name && (
                         <Form.Text className='text-danger'>
                           {errors.name}
                         </Form.Text>
@@ -72,10 +90,10 @@ const UserEditScreen = () => {
                         type='email'
                         onChange={handleChange}
                         value={values.email}
-                        isValid={values.email.length !== 0 && !errors.email}
-                        isInvalid={values.email.length !== 0 && errors.email}
+                        isValid={!errors.email}
+                        isInvalid={errors.email}
                       />
-                      {values.email.length !== 0 && errors.email && (
+                      {errors.email && (
                         <Form.Text className='text-danger'>
                           {errors.email}
                         </Form.Text>
@@ -119,6 +137,8 @@ const UserEditScreen = () => {
               </Formik>
             </Card.Body>
           </Card>
+        ) : (
+          <Loader />
         )}
       </FormWrapper>
     </>
