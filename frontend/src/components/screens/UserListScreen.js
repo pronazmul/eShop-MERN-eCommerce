@@ -27,7 +27,7 @@ const UserListScreen = () => {
     } else {
       history.push('/')
     }
-  }, [dispatch, userDeleteSuccess, userInfo])
+  }, [dispatch, userDeleteSuccess, userInfo, history])
 
   const userDeleteHandler = (id) => {
     if (window.confirm('Are you sure!')) {
@@ -46,7 +46,7 @@ const UserListScreen = () => {
         ) : error ? (
           <Message variant='danger'>{error}</Message>
         ) : (
-          <Table responsive striped bordered hover size='md'>
+          <Table responsive striped bordered hover size='lg'>
             <thead>
               <tr>
                 <th>ID</th>
@@ -62,9 +62,7 @@ const UserListScreen = () => {
                   <td>{user._id}</td>
                   <td>{user.name}</td>
                   <td>
-                    <a target='_blank' href={`mailto:${user.email}`}>
-                      {user.email}
-                    </a>
+                    <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>
                   <td>{user.role}</td>
                   <td>

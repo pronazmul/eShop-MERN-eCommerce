@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { Button, Row, Col, Image, ListGroup } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {

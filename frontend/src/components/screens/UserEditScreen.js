@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Card, Col, Row, Form } from 'react-bootstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { Formik } from 'formik'
@@ -37,7 +37,7 @@ const UserEditScreen = () => {
         dispatch(userDetailsAction(id))
       }
     }
-  }, [dispatch, user, id])
+  }, [dispatch, user, id, history, updateSuccess])
 
   return (
     <>

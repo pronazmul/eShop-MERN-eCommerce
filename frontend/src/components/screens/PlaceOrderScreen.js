@@ -33,7 +33,7 @@ const PlaceOrderScreen = () => {
     } else if (success) {
       history.push(`/order/${order._id}`)
     }
-  }, [paymentMethod, success, order])
+  }, [paymentMethod, success, order, history])
 
   // Order Handler
   const handlePlaceOrder = () => {

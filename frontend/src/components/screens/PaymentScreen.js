@@ -15,7 +15,7 @@ const PaymentScreen = () => {
     if (!shippingAddress.address) {
       history.push('/shipping')
     }
-  }, [shippingAddress])
+  }, [shippingAddress, history])
 
   const [paymentMethod, setPaymentMethod] = useState('payPal')
   const handleSubmit = (e) => {

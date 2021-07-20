@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Card, Col, Row, Form, Button, Image, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -35,7 +35,7 @@ const ProfileScreen = () => {
       dispatch(userDetailsAction('profile'))
       dispatch(orderListMyAction())
     }
-  }, [userInfo, dispatch, success])
+  }, [userInfo, dispatch, success, history, user])
   //   Formik Data manage & YUP Validation:
   const formik = useFormik({
     initialValues: {
@@ -49,7 +49,7 @@ const ProfileScreen = () => {
       if (Object.keys(values).filter((key) => values[key]).length !== 0) {
         if (values.password === values.confirmPassword) {
           let user = Object.keys(values)
-            .filter((k) => values[k] != '')
+            .filter((k) => values[k] !== '')
             .reduce((a, k) => ({ ...a, [k]: values[k] }), {})
           dispatch(userProfileUpdateAction(user))
           resetForm()

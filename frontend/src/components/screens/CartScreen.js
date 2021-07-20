@@ -91,7 +91,7 @@ const CartScreen = () => {
                         onClick={() => removeFromCart(item.product)}
                         className='btn btn btn-light  '
                       >
-                        <i class='far fa-trash-alt'></i>
+                        <i className='far fa-trash-alt'></i>
                       </Button>
                     </Col>
                   </Row>

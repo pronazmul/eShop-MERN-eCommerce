@@ -20,7 +20,7 @@ const ShippingScreen = () => {
     if (!userInfo) {
       history.push('/login')
     }
-  }, [userInfo])
+  }, [userInfo, history])
 
   const formik = useFormik({
     initialValues: {

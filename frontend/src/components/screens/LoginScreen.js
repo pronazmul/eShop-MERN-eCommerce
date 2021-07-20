@@ -34,8 +34,7 @@ const LoginScreen = () => {
     },
   })
 
-  const { handleChange, handleBlur, handleSubmit, touched, errors, values } =
-    formik
+  const { handleChange, handleBlur, handleSubmit, errors, values } = formik
 
   return (
     <FormWrapper>
