@@ -87,7 +87,7 @@ export const registerAction = (name, email, password) => async (dispatch) => {
   }
 }
 
-export const userDetailsAction = () => async (dispatch, getState) => {
+export const userDetailsAction = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST })
 
@@ -103,7 +103,7 @@ export const userDetailsAction = () => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.get('/api/user/profile', config)
+    const { data } = await axios.get(`/api/user/${id}`, config)
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data })
   } catch (error) {
     dispatch({

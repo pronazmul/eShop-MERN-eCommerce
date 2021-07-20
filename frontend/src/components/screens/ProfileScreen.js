@@ -32,7 +32,7 @@ const ProfileScreen = () => {
       history.push('/login')
     } else if (!user.name || success) {
       dispatch({ type: USER_PROFILE_UPDATE_RESET })
-      dispatch(userDetailsAction())
+      dispatch(userDetailsAction('profile'))
       dispatch(orderListMyAction())
     }
   }, [userInfo, dispatch, success])
@@ -83,7 +83,8 @@ const ProfileScreen = () => {
                   <Toaster variant='success' message='Profile Updated' />
                 )}
                 <Image
-                  src={`uploads/avatars/${user.avatar}`}
+                  // src={`uploads/avatars/${user.avatar}`}
+                  src='https://i.ibb.co/xzkq6z6/avatar.png'
                   alt='Profile'
                   height='100'
                   width='100'
