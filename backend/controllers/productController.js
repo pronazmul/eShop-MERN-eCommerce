@@ -24,5 +24,26 @@ const singleProduct = asyncHandler(async (req, res) => {
   res.status(200).json(product)
 })
 
+/**
+ * @desc   Delete Single Product
+ * @Route  DELETE api/products/:id
+ * @access public/Admin
+ */
+const deleteProduct = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id)
+  if (product) {
+    product.remove()
+    res.status(200).json({ msg: 'Product Removed Successfully!' })
+  } else {
+    res.status(404).json({
+      errors: {
+        common: {
+          msg: 'Product Not Exists',
+        },
+      },
+    })
+  }
+})
+
 // Module Export:
-module.exports = { allProducts, singleProduct }
+module.exports = { allProducts, singleProduct, deleteProduct }

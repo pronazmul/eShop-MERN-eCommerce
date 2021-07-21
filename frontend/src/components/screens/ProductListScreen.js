@@ -5,24 +5,34 @@ import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useHistory } from 'react-router-dom'
-import { productListAction } from './../../redux/actions/productActions'
+import {
+  productDeleteAction,
+  productListAction,
+} from './../../redux/actions/productActions'
 
 const ProductListScreen = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.userLogin)
   const { loading, error, products } = useSelector((state) => state.productList)
+  const {
+    loading: deleteLoading,
+    error: deleteError,
+    success: deleteSuccess,
+  } = useSelector((state) => state.productDelete)
 
   useEffect(() => {
-    if (userInfo && userInfo.role === 'admin') {
+    if ((userInfo && userInfo.role === 'admin') || deleteSuccess) {
       dispatch(productListAction())
     } else {
       history.push('/')
     }
-  }, [dispatch, userInfo, history])
+  }, [dispatch, userInfo, history, deleteSuccess])
 
   const productDeleteHandler = (id) => {
-    window.confirm('Are you sure!')
+    if (window.confirm('Are you sure!')) {
+      dispatch(productDeleteAction(id))
+    }
   }
 
   return (
@@ -38,7 +48,8 @@ const ProductListScreen = () => {
         </Col>
       </Row>
       <Row>
-        {loading ? (
+        {deleteError && <Message variant='danger'>{deleteError}</Message>}
+        {loading || deleteLoading ? (
           <Loader />
         ) : error ? (
           <Message variant='danger'>{error}</Message>

@@ -3,7 +3,7 @@ const Products = require('./data/Products')
 const Users = require('./data/Users')
 
 const Product = require('./models/productModel')
-const User = require('./models/userModel')
+const User = require('./models/peopleModel')
 const Order = require('./models/orderModel')
 const mongoConnection = require('./config/db')
 
