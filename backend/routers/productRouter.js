@@ -9,11 +9,15 @@ const {
   singleProduct,
   allProducts,
   deleteProduct,
+  createProduct,
+  updateProduct,
 } = require('../controllers/productController')
 
 router.route('/').get(allProducts)
 router.route('/:id').get(singleProduct)
 router.route('/:id').delete(authGuard, checkRole('admin'), deleteProduct)
+router.route('/').post(authGuard, checkRole('admin'), createProduct)
+router.route('/:id').put(authGuard, checkRole('admin'), updateProduct)
 
 // Export Module:
 module.exports = router

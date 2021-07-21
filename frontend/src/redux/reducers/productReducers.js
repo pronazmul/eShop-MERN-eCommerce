@@ -5,9 +5,14 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
+  PRODUCT_DETAILS_RESET,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
+  PRODUCT_CREATE_REQUEST,
+  PRODUCT_CREATE_SUCCESS,
+  PRODUCT_CREATE_FAIL,
+  PRODUCT_CREATE_RESET,
 } from '../constants/productConstants'
 
 // @REDUCER TO Load all Products
@@ -36,12 +41,14 @@ export const productDetailsReducer = (
       return { loading: false, product: action.payload }
     case PRODUCT_DETAILS_FAIL:
       return { loading: false, error: action.payload }
+    case PRODUCT_DETAILS_RESET:
+      return { product: { reviews: [] } }
     default:
       return state
   }
 }
 
-// @REDUCER TO Load Single Product
+// @REDUCER TO Delete Single Product
 export const productDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case PRODUCT_DELETE_REQUEST:
@@ -50,6 +57,22 @@ export const productDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true }
     case PRODUCT_DELETE_FAIL:
       return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+// @REDUCER TO Create Single Product
+export const productCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REQUEST:
+      return { loading: true }
+    case PRODUCT_CREATE_SUCCESS:
+      return { loading: false, success: true, product: action.payload }
+    case PRODUCT_CREATE_FAIL:
+      return { loading: false, error: action.payload }
+    case PRODUCT_CREATE_RESET:
+      return {}
     default:
       return state
   }

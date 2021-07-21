@@ -6,6 +6,7 @@ import Message from '../uiElements/Message'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useHistory } from 'react-router-dom'
 import {
+  productCreateAction,
   productDeleteAction,
   productListAction,
 } from './../../redux/actions/productActions'
@@ -21,18 +22,39 @@ const ProductListScreen = () => {
     success: deleteSuccess,
   } = useSelector((state) => state.productDelete)
 
+  const {
+    loading: createLoading,
+    error: createError,
+    success: createSuccess,
+    product: createdProduct,
+  } = useSelector((state) => state.productCreate)
+
   useEffect(() => {
-    if ((userInfo && userInfo.role === 'admin') || deleteSuccess) {
+    if ((userInfo && userInfo.role === 'admin') || !products || deleteSuccess) {
       dispatch(productListAction())
     } else {
-      history.push('/')
+      history.push('/login')
     }
-  }, [dispatch, userInfo, history, deleteSuccess])
+    if (createSuccess) {
+      history.push(`/admin/product/${createdProduct._id}/edit`)
+    }
+  }, [
+    dispatch,
+    userInfo,
+    history,
+    deleteSuccess,
+    createSuccess,
+    createdProduct,
+  ])
 
   const productDeleteHandler = (id) => {
     if (window.confirm('Are you sure!')) {
       dispatch(productDeleteAction(id))
     }
+  }
+
+  const productCreateHandler = () => {
+    dispatch(productCreateAction())
   }
 
   return (
@@ -42,14 +64,15 @@ const ProductListScreen = () => {
           <h2>Products</h2>
         </Col>
         <Col className='d-flex justify-content-end'>
-          <Button className='btn-blue'>
+          <Button className='btn-blue' onClick={productCreateHandler}>
             <i className='fas fa-plus'></i> Add Product
           </Button>
         </Col>
       </Row>
       <Row>
         {deleteError && <Message variant='danger'>{deleteError}</Message>}
-        {loading || deleteLoading ? (
+        {createError && <Message variant='danger'>{createError}</Message>}
+        {loading || deleteLoading || createLoading ? (
           <Loader />
         ) : error ? (
           <Message variant='danger'>{error}</Message>
