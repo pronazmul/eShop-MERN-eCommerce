@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Row, Table, Button } from 'react-bootstrap'
+import { Row, Table, Button, ButtonGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
@@ -65,19 +65,21 @@ const UserListScreen = () => {
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>
                   <td>{user.role}</td>
-                  <td>
-                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                      <Button variant='light' className='btn-sm mx-auto'>
-                        <i className='fas fa-edit'></i>
+                  <td className='text-center'>
+                    <ButtonGroup>
+                      <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                        <Button variant='light' className='btn-sm'>
+                          <i className='fas fa-edit'></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant='danger'
+                        onClick={() => userDeleteHandler(user._id)}
+                        className='btn-sm'
+                      >
+                        <i className='fas fa-trash'></i>
                       </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      onClick={() => userDeleteHandler(user._id)}
-                      className='btn-sm mx-auto ml-1'
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
+                    </ButtonGroup>
                   </td>
                 </tr>
               ))}

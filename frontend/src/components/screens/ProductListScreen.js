@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Row, Table, Button, Col } from 'react-bootstrap'
+import { Row, Table, Button, Col, ButtonGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
@@ -64,19 +64,21 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>{product.countInStock}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm mx-auto'>
-                        <i className='fas fa-edit'></i>
+                  <td className='text-center'>
+                    <ButtonGroup>
+                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                        <Button variant='light' className='btn-sm'>
+                          <i className='fas fa-edit'></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant='danger'
+                        onClick={() => productDeleteHandler(product._id)}
+                        className='btn-sm'
+                      >
+                        <i className='fas fa-trash'></i>
                       </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      onClick={() => productDeleteHandler(product._id)}
-                      className='btn-sm mx-auto ml-1'
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
+                    </ButtonGroup>
                   </td>
                 </tr>
               ))}
