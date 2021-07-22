@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, Card, Col, Row, Form } from 'react-bootstrap'
+import { Button, Card, Col, Row, Form, Image } from 'react-bootstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { Formik } from 'formik'
 import FormWrapper from '../uiElements/FormWrapper'
@@ -64,7 +64,7 @@ const ProductEditScreen = () => {
                 initialValues={{
                   name: product.name,
                   price: product.price,
-                  image: product.image,
+                  image: null,
                   brand: product.brand,
                   category: product.category,
                   countInStock: product.countInStock,
@@ -72,14 +72,33 @@ const ProductEditScreen = () => {
                 }}
                 validationSchema={productSchema}
                 onSubmit={(values) => {
-                  dispatch(productUpdateAction(product._id, values))
+                  let formData = new FormData()
+                  formData.append('name', values.name)
+                  formData.append('price', values.price)
+                  formData.append('brand', values.brand)
+                  formData.append('category', values.category)
+                  formData.append('countInStock', values.countInStock)
+                  formData.append('description', values.description)
+                  if (values.image) {
+                    formData.append('image', values.image)
+                  }
+
+                  dispatch(productUpdateAction(product._id, formData))
                 }}
               >
-                {({ values, errors, handleChange, handleSubmit }) => (
+                {({
+                  values,
+                  errors,
+                  handleChange,
+                  handleSubmit,
+                  setFieldValue,
+                }) => (
                   <Form onSubmit={handleSubmit}>
-                    <Row>
-                      <Form.Group as={Col}>
-                        <Form.Label>Product</Form.Label>
+                    <Form.Group as={Row}>
+                      <Form.Label column sm={3}>
+                        Product
+                      </Form.Label>
+                      <Col>
                         <Form.Control
                           name='name'
                           type='name'
@@ -88,14 +107,18 @@ const ProductEditScreen = () => {
                           isValid={!errors.name}
                           isInvalid={errors.name}
                         />
-                        {errors.name && (
-                          <Form.Text className='text-danger'>
-                            {errors.name}
-                          </Form.Text>
-                        )}
-                      </Form.Group>
-                      <Form.Group as={Col}>
-                        <Form.Label>Price</Form.Label>
+                      </Col>
+                      {errors.name && (
+                        <Form.Text className='text-danger'>
+                          {errors.name}
+                        </Form.Text>
+                      )}
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                      <Form.Label column sm={3}>
+                        Price
+                      </Form.Label>
+                      <Col>
                         <Form.Control
                           name='price'
                           type='text'
@@ -104,32 +127,60 @@ const ProductEditScreen = () => {
                           isValid={!errors.price}
                           isInvalid={errors.price}
                         />
-                        {errors.price && (
-                          <Form.Text className='text-danger'>
-                            {errors.price}
-                          </Form.Text>
-                        )}
-                      </Form.Group>
-                    </Row>
-                    <Row>
-                      <Form.Group as={Col}>
-                        <Form.Label>Image URL</Form.Label>
+                      </Col>
+                      {errors.price && (
+                        <Form.Text className='text-danger'>
+                          {errors.price}
+                        </Form.Text>
+                      )}
+                    </Form.Group>
+
+                    <Form.Group as={Row}>
+                      <Form.Label
+                        htmlFor='image'
+                        column
+                        sm={3}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <p className='m-0 '>
+                          <i className='fas fa-cloud-upload-alt'></i>{' '}
+                          <span>Upload</span>
+                        </p>
+                      </Form.Label>
+                      <Col>
                         <Form.Control
+                          id='image'
                           name='image'
-                          type='text'
-                          onChange={handleChange}
-                          value={values.image}
-                          isValid={!errors.image}
-                          isInvalid={errors.image}
+                          type='file'
+                          className='d-none'
+                          onChange={(event) =>
+                            setFieldValue('image', event.target.files[0])
+                          }
                         />
-                        {errors.image && (
-                          <Form.Text className='text-danger'>
-                            {errors.image}
-                          </Form.Text>
-                        )}
-                      </Form.Group>
-                      <Form.Group as={Col}>
-                        <Form.Label>Brand</Form.Label>
+                        <Image
+                          src={
+                            values.image
+                              ? URL.createObjectURL(values.image)
+                              : `/uploads/products/${product.image}`
+                          }
+                          alt='Product'
+                          height='80'
+                          width='80'
+                          className='my-2'
+                          rounded
+                        />
+                      </Col>
+                      {errors.image && (
+                        <Form.Text className='text-danger'>
+                          {errors.image}
+                        </Form.Text>
+                      )}
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                      <Form.Label column sm={3}>
+                        Brand
+                      </Form.Label>
+                      <Col>
                         <Form.Control
                           name='brand'
                           type='text'
@@ -138,16 +189,19 @@ const ProductEditScreen = () => {
                           isValid={!errors.brand}
                           isInvalid={errors.brand}
                         />
-                        {errors.brand && (
-                          <Form.Text className='text-danger'>
-                            {errors.brand}
-                          </Form.Text>
-                        )}
-                      </Form.Group>
-                    </Row>
-                    <Row>
-                      <Form.Group as={Col}>
-                        <Form.Label>Category</Form.Label>
+                      </Col>
+                      {errors.brand && (
+                        <Form.Text className='text-danger'>
+                          {errors.brand}
+                        </Form.Text>
+                      )}
+                    </Form.Group>
+
+                    <Form.Group as={Row}>
+                      <Form.Label column sm={3}>
+                        Category
+                      </Form.Label>
+                      <Col>
                         <Form.Control
                           name='category'
                           type='text'
@@ -156,14 +210,18 @@ const ProductEditScreen = () => {
                           isValid={!errors.category}
                           isInvalid={errors.category}
                         />
-                        {errors.category && (
-                          <Form.Text className='text-danger'>
-                            {errors.category}
-                          </Form.Text>
-                        )}
-                      </Form.Group>
-                      <Form.Group as={Col}>
-                        <Form.Label>Quantity</Form.Label>
+                      </Col>
+                      {errors.category && (
+                        <Form.Text className='text-danger'>
+                          {errors.category}
+                        </Form.Text>
+                      )}
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                      <Form.Label column sm={3}>
+                        Quantity
+                      </Form.Label>
+                      <Col>
                         <Form.Control
                           name='countInStock'
                           type='text'
@@ -172,15 +230,18 @@ const ProductEditScreen = () => {
                           isValid={!errors.countInStock}
                           isInvalid={errors.countInStock}
                         />
-                        {errors.countInStock && (
-                          <Form.Text className='text-danger'>
-                            {errors.countInStock}
-                          </Form.Text>
-                        )}
-                      </Form.Group>
-                    </Row>
+                      </Col>
+                      {errors.countInStock && (
+                        <Form.Text className='text-danger'>
+                          {errors.countInStock}
+                        </Form.Text>
+                      )}
+                    </Form.Group>
+
                     <Form.Group>
-                      <Form.Label>Description</Form.Label>
+                      <Form.Label column sm={3}>
+                        Description
+                      </Form.Label>
                       <Form.Control
                         as='textarea'
                         rows={2}

@@ -98,7 +98,10 @@ const ProfileScreen = () => {
                   }) => (
                     <Form onSubmit={handleSubmit}>
                       <Form.Group>
-                        <Form.Label htmlFor='avatar'>
+                        <Form.Label
+                          htmlFor='avatar'
+                          style={{ cursor: 'pointer' }}
+                        >
                           <p className='m-0 '>
                             <i className='fas fa-cloud-upload-alt'></i>{' '}
                             <span> Update Photo</span>

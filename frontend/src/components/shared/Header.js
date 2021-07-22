@@ -35,7 +35,7 @@ const Header = () => {
               {userInfo ? (
                 <>
                   <Image
-                    src={`uploads/avatars/${userInfo.avatar}`}
+                    src={`/uploads/avatars/${userInfo.avatar}`}
                     roundedCircle
                     width='40'
                     height='40'

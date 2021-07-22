@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-
+const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png']
 const productSchema = yup.object().shape({
   name: yup
     .string()
@@ -32,5 +32,13 @@ const productSchema = yup.object().shape({
     .required('Description Must not be Empty')
     .min(5, 'Too Short !')
     .max(1000, 'Too Long !'),
+  image: yup
+    .mixed()
+    .test('fileSize', 'File more than 1 MB not Allowed', (value) =>
+      value ? value.size <= 1000000 : true
+    )
+    .test('fileFormat', 'Unsupported Format', (value) =>
+      value ? SUPPORTED_FORMATS.includes(value.type) : true
+    ),
 })
 export default productSchema

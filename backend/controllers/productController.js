@@ -1,5 +1,7 @@
 // External Modules:
 const asyncHandler = require('express-async-handler')
+const { unlink } = require('fs')
+const path = require('path')
 
 // Internal Modules:
 const Product = require('../models/productModel')
@@ -55,11 +57,23 @@ const updateProduct = asyncHandler(async (req, res, next) => {
   if (product) {
     product.name = req.body.name || product.name
     product.price = req.body.price || product.price
-    product.image = req.body.image || product.image
     product.brand = req.body.brand || product.brand
     product.category = req.body.category || product.category
     product.countInStock = req.body.countInStock || product.countInStock
     product.description = req.body.description || product.description
+    if (req.files && req.files.length > 0) {
+      if (product.image !== 'demoproduct.png') {
+        unlink(
+          path.join(__dirname, `/../public/uploads/products/${product.image}`),
+          (err) => {
+            if (err) console.log(err)
+          }
+        )
+        product.image = req.files[0].filename
+      } else {
+        product.image = req.files[0].filename
+      }
+    }
     const updatedProduct = await product.save()
     res.status(201).json(updatedProduct)
   } else {
