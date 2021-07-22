@@ -9,7 +9,7 @@ const productSchema = yup.object().shape({
   price: yup
     .string()
     .required('Product Price Required!')
-    .matches(/^[0-9]+$/, 'Must Be Digit Only')
+    .matches(/^\d*(\.\d{1,2})?$/, 'Must Be Digit or Decimal')
     .max(6, 'Price Too High!'),
   image: yup.string().required('Image Must not be Empty'),
   brand: yup

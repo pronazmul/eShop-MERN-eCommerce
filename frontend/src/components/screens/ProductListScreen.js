@@ -10,6 +10,7 @@ import {
   productDeleteAction,
   productListAction,
 } from './../../redux/actions/productActions'
+import { PRODUCT_DETAILS_RESET } from '../../redux/constants/productConstants'
 
 const ProductListScreen = () => {
   const history = useHistory()
@@ -36,6 +37,7 @@ const ProductListScreen = () => {
       history.push('/login')
     }
     if (createSuccess) {
+      dispatch({ type: PRODUCT_DETAILS_RESET })
       history.push(`/admin/product/${createdProduct._id}/edit`)
     }
   }, [

@@ -6,8 +6,16 @@ import FormWrapper from '../uiElements/FormWrapper'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
-import { productDetailsAction } from '../../redux/actions/productActions'
+import {
+  productDetailsAction,
+  productUpdateAction,
+} from '../../redux/actions/productActions'
 import productSchema from '../yupSchemas/productSchema'
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_DETAILS_RESET,
+  PRODUCT_UPDATE_RESET,
+} from '../../redux/constants/productConstants'
 
 const ProductEditScreen = () => {
   const history = useHistory()
@@ -16,12 +24,24 @@ const ProductEditScreen = () => {
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   )
+  const {
+    loading: updateLoader,
+    error: updateError,
+    success: updateSuccess,
+  } = useSelector((state) => state.productUpdate)
 
   useEffect(() => {
-    if (!product || product._id !== id) {
-      dispatch(productDetailsAction(id))
+    if (updateSuccess) {
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      dispatch({ type: PRODUCT_DETAILS_RESET })
+      dispatch({ type: PRODUCT_CREATE_RESET })
+      history.push('/admin/productList')
+    } else {
+      if (!product || product._id !== id) {
+        dispatch(productDetailsAction(id))
+      }
     }
-  }, [dispatch, product, id, history])
+  }, [dispatch, product, id, history, updateSuccess])
 
   return (
     <>
@@ -29,14 +49,15 @@ const ProductEditScreen = () => {
         Go Back
       </Link>
       <FormWrapper>
-        {loading ? (
+        {updateError && <Message variant='danger'>{updateError}</Message>}
+        {loading || updateLoader ? (
           <Loader />
         ) : error ? (
           <Message variant='danger'>{error}</Message>
         ) : product ? (
           <Card>
             <Card.Header className='text-center'>
-              <h2>Update Product</h2>
+              <h2>Edit Product</h2>
             </Card.Header>
             <Card.Body className='mx-2'>
               <Formik
@@ -51,8 +72,7 @@ const ProductEditScreen = () => {
                 }}
                 validationSchema={productSchema}
                 onSubmit={(values) => {
-                  alert(JSON.stringify(values))
-                  //   dispatch(userUpdateAction(user._id, values))
+                  dispatch(productUpdateAction(product._id, values))
                 }}
               >
                 {({ values, errors, handleChange, handleSubmit }) => (

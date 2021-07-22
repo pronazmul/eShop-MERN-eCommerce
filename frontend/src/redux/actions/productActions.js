@@ -12,6 +12,9 @@ import {
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_CREATE_FAIL,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_SUCCESS,
+  PRODUCT_UPDATE_FAIL,
 } from '../constants/productConstants'
 
 // @Action For All Products:
@@ -103,3 +106,33 @@ export const productCreateAction = () => async (dispatch, getState) => {
     })
   }
 }
+
+// @Action To Update Single Product (Admin):
+export const productUpdateAction =
+  (id, product) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: PRODUCT_UPDATE_REQUEST })
+      const {
+        userLogin: {
+          userInfo: { token },
+        },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      const { data } = await axios.put(`/api/products/${id}`, product, config)
+      dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data })
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }
