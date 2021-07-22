@@ -27,6 +27,7 @@ const userResisgration = async (req, res, next) => {
     } else {
       newUser = new User({
         ...req.body,
+        avatar: 'demoavatar.png',
         password: hashedPassword,
       })
     }
@@ -122,13 +123,20 @@ const updateUserProfile = async (req, res, next) => {
       user.name = req.body.name || req.user.name
       user.email = req.body.email || req.user.email
       if (req.files && req.files.length > 0) {
-        unlink(
-          path.join(__dirname, `/../public/uploads/avatars/${req.user.avatar}`),
-          (err) => {
-            if (err) console.log(err)
-          }
-        )
-        user.avatar = req.files[0].filename
+        if (req.user.avatar !== 'demoavatar.png') {
+          unlink(
+            path.join(
+              __dirname,
+              `/../public/uploads/avatars/${req.user.avatar}`
+            ),
+            (err) => {
+              if (err) console.log(err)
+            }
+          )
+          user.avatar = req.files[0].filename
+        } else {
+          user.avatar = req.files[0].filename
+        }
       }
       if (req.body.password) {
         user.password = await bcrypt.hash(req.body.password, 10)

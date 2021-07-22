@@ -5,7 +5,7 @@ const productSchema = yup.object().shape({
     .string()
     .required('Product Name Required!')
     .min(3, 'Too Short !')
-    .max(30, 'Too Long !'),
+    .max(100, 'Too Long !'),
   price: yup
     .string()
     .required('Product Price Required!')
@@ -31,6 +31,6 @@ const productSchema = yup.object().shape({
     .string()
     .required('Description Must not be Empty')
     .min(5, 'Too Short !')
-    .max(150, 'Too Long !'),
+    .max(1000, 'Too Long !'),
 })
 export default productSchema

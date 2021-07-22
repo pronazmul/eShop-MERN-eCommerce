@@ -47,8 +47,8 @@ const ProductScreen = () => {
           >
             <Image
               style={{ width: '90%', height: '90%' }}
-              src={product.image}
-              alt={product.name}
+              src={`/uploads/products/${product.image}`}
+              alt={product.image}
               rounded
             />
           </Col>

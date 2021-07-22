@@ -50,7 +50,12 @@ const CartScreen = () => {
                 <ListGroup.Item key={item.product}>
                   <Row className='d-flex justify-content-center align-items-center py-3'>
                     <Col xs={2}>
-                      <Image src={item.image} alt={item.name} fluid rounded />
+                      <Image
+                        src={`/uploads/products/${item.image}`}
+                        alt={item.name}
+                        fluid
+                        rounded
+                      />
                     </Col>
                     <Col xs={4}>
                       <Link

@@ -83,8 +83,7 @@ const ProfileScreen = () => {
                   <Toaster variant='success' message='Profile Updated' />
                 )}
                 <Image
-                  // src={`uploads/avatars/${user.avatar}`}
-                  src='https://i.ibb.co/xzkq6z6/avatar.png'
+                  src={`uploads/avatars/${user.avatar}`}
                   alt='Profile'
                   height='100'
                   width='100'
