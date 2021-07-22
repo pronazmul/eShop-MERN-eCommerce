@@ -10,6 +10,8 @@ const Product = ({ product }) => {
         <Card.Img
           className='product-img'
           variant='top'
+          width='w-100'
+          height='250'
           src={`uploads/products/${product.image}`}
         />
         <Card.Body>
