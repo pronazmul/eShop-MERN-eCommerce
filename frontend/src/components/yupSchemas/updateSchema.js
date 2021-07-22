@@ -1,9 +1,17 @@
 import * as yup from 'yup'
+const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png']
 const PasswordRegEx =
   /^.*((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/
 const updateSchema = yup.object().shape({
-  name: yup.string().min(3, 'Too Short !').max(30, 'Too Long !'),
-  email: yup.string().email('Enter a Vaid Email'),
+  name: yup
+    .string()
+    .min(3, 'Too Short !')
+    .required('Should Not Be Empty')
+    .max(30, 'Too Long !'),
+  email: yup
+    .string()
+    .required('Should Not Be Empty')
+    .email('Enter a Vaid Email'),
   password: yup
     .string()
     .matches(PasswordRegEx, 'Uppercase Lowercase Special char Required')
@@ -15,5 +23,13 @@ const updateSchema = yup.object().shape({
       password ? field.required() : field
     )
     .oneOf([yup.ref('password')], 'Password does not matched'),
+  avatar: yup
+    .mixed()
+    .test('fileSize', 'File more than 1 MB not Allowed', (value) =>
+      value ? value.size <= 1000000 : true
+    )
+    .test('fileFormat', 'Unsupported Format', (value) =>
+      value ? SUPPORTED_FORMATS.includes(value.type) : true
+    ),
 })
 export default updateSchema

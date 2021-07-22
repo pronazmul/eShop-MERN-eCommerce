@@ -131,13 +131,15 @@ export const userProfileUpdateAction = (user) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
     }
+
     const { data } = await axios.put('/api/user/profile', user, config)
     dispatch({ type: USER_PROFILE_UPDATE_SUCCESS, payload: data })
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
+
     localStorage.setItem('userInfo', JSON.stringify(data))
   } catch (error) {
     dispatch({

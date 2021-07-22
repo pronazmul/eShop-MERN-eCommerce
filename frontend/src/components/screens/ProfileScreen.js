@@ -1,5 +1,5 @@
-import { useFormik } from 'formik'
-import React, { useEffect } from 'react'
+import { Formik } from 'formik'
+import React, { useEffect, useState } from 'react'
 import { Card, Col, Row, Form, Button, Image, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -17,6 +17,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 const ProfileScreen = () => {
   const history = useHistory()
+  const [avatarPreview, setAvatarPreview] = useState(null)
   const { userInfo } = useSelector((state) => state.userLogin)
   const { loading, error, user } = useSelector((state) => state.userDetails)
   const { success } = useSelector((state) => state.userProfileUpdate)
@@ -36,34 +37,6 @@ const ProfileScreen = () => {
       dispatch(orderListMyAction())
     }
   }, [userInfo, dispatch, success, history, user])
-  //   Formik Data manage & YUP Validation:
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-    validationSchema: updateSchema,
-    onSubmit: (values, { resetForm }) => {
-      if (Object.keys(values).filter((key) => values[key]).length !== 0) {
-        if (values.password === values.confirmPassword) {
-          let user = Object.keys(values)
-            .filter((k) => values[k] !== '')
-            .reduce((a, k) => ({ ...a, [k]: values[k] }), {})
-          dispatch(userProfileUpdateAction(user))
-          resetForm()
-        } else {
-          return false
-        }
-      } else {
-        return false
-      }
-    },
-  })
-
-  const { handleChange, handleSubmit, errors, values } = formik
-  console.log(formik)
 
   return (
     <>
@@ -83,88 +56,144 @@ const ProfileScreen = () => {
                   <Toaster variant='success' message='Profile Updated' />
                 )}
                 <Image
-                  src={`uploads/avatars/${user.avatar}`}
+                  src={
+                    avatarPreview
+                      ? avatarPreview
+                      : `uploads/avatars/${user.avatar}`
+                  }
                   alt='Profile'
                   height='100'
                   width='100'
                   roundedCircle
                   className='d-block mx-auto shadow p-1 m-2'
                 />
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <Form.Control
-                      name='name'
-                      type='text'
-                      placeholder={user.name}
-                      onChange={handleChange}
-                      value={values.name}
-                      isValid={values.name.length !== 0 && !errors.name}
-                      isInvalid={values.name.length !== 0 && errors.name}
-                    />
-                    {values.name.length !== 0 && errors.name && (
-                      <Form.Text className='text-danger'>
-                        {errors.name}
-                      </Form.Text>
-                    )}
-                  </Form.Group>
-
-                  <Form.Group>
-                    <Form.Control
-                      name='email'
-                      type='email'
-                      placeholder={user.email}
-                      onChange={handleChange}
-                      value={values.email}
-                      isValid={values.email.length !== 0 && !errors.email}
-                      isInvalid={values.email.length !== 0 && errors.email}
-                    />
-                    {values.email.length !== 0 && errors.email && (
-                      <Form.Text className='text-danger'>
-                        {errors.email}
-                      </Form.Text>
-                    )}
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Control
-                      name='password'
-                      type='password'
-                      placeholder='New Password'
-                      onChange={handleChange}
-                      value={values.password}
-                      isValid={values.password.length !== 0 && !errors.password}
-                      isInvalid={
-                        values.password.length !== 0 && errors.password
-                      }
-                    />
-                    {values.password.length !== 0 && errors.password && (
-                      <Form.Text className='text-danger'>
-                        {errors.password}
-                      </Form.Text>
-                    )}
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Control
-                      name='confirmPassword'
-                      type='password'
-                      placeholder='Re-Type New Password'
-                      onChange={handleChange}
-                      value={values.confirmPassword}
-                      isValid={
-                        values.confirmPassword.length !== 0 &&
-                        !errors.confirmPassword
-                      }
-                      isInvalid={errors.confirmPassword}
-                    />
-                    {errors.confirmPassword && (
-                      <Form.Text className='text-danger'>
-                        {errors.confirmPassword}
-                      </Form.Text>
-                    )}
-                  </Form.Group>
-                  <Button type='submit' className='btn btn-blue my-3 btn-block'>
-                    Update Profile
-                  </Button>
-                </Form>
+                <Formik
+                  initialValues={{
+                    name: user.name,
+                    email: user.email,
+                    password: '',
+                    confirmPassword: '',
+                    avatar: '',
+                  }}
+                  validationSchema={updateSchema}
+                  onSubmit={(values) => {
+                    let formData = new FormData()
+                    formData.append('name', values.name)
+                    formData.append('email', values.email)
+                    if (values.avatar) {
+                      formData.append('avatar', values.avatar)
+                    }
+                    if (values.password) {
+                      formData.append('password', values.password)
+                    }
+                    dispatch(userProfileUpdateAction(formData))
+                  }}
+                >
+                  {({
+                    handleChange,
+                    handleSubmit,
+                    errors,
+                    values,
+                    setFieldValue,
+                  }) => (
+                    <Form onSubmit={handleSubmit}>
+                      <Form.Group>
+                        <Form.Label htmlFor='avatar'>
+                          <p className='m-0 '>
+                            <i className='fas fa-cloud-upload-alt'></i>{' '}
+                            <span> Update Photo</span>
+                          </p>
+                        </Form.Label>
+                        <Form.File
+                          className='d-none'
+                          id='avatar'
+                          name='avatar'
+                          type='file'
+                          onChange={(event) => {
+                            setFieldValue('avatar', event.target.files[0])
+                            setAvatarPreview(
+                              URL.createObjectURL(event.target.files[0])
+                            )
+                          }}
+                        />
+                        {errors.avatar && (
+                          <Form.Text className='text-danger'>
+                            <p className='m-0 '>{errors.avatar}</p>
+                          </Form.Text>
+                        )}
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          name='name'
+                          type='text'
+                          onChange={handleChange}
+                          value={values.name}
+                          isInvalid={errors.name}
+                        />
+                        {errors.name && (
+                          <Form.Text className='text-danger'>
+                            {errors.name}
+                          </Form.Text>
+                        )}
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          name='email'
+                          type='email'
+                          onChange={handleChange}
+                          value={values.email}
+                          isInvalid={errors.email}
+                        />
+                        {errors.email && (
+                          <Form.Text className='text-danger'>
+                            {errors.email}
+                          </Form.Text>
+                        )}
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          name='password'
+                          type='password'
+                          placeholder='New Password'
+                          onChange={handleChange}
+                          value={values.password}
+                          isValid={values.password.length && !errors.password}
+                          isInvalid={errors.password}
+                        />
+                        {errors.password && (
+                          <Form.Text className='text-danger'>
+                            {errors.password}
+                          </Form.Text>
+                        )}
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          name='confirmPassword'
+                          type='password'
+                          placeholder='Re-Type New Password'
+                          onChange={handleChange}
+                          value={values.confirmPassword}
+                          isValid={
+                            values.confirmPassword.length &&
+                            !errors.confirmPassword
+                          }
+                          isInvalid={errors.confirmPassword}
+                        />
+                        {errors.confirmPassword && (
+                          <Form.Text className='text-danger'>
+                            {errors.confirmPassword}
+                          </Form.Text>
+                        )}
+                      </Form.Group>
+                      <Button
+                        type='submit'
+                        className='btn btn-blue my-3 btn-block'
+                      >
+                        Update Profile
+                      </Button>
+                    </Form>
+                  )}
+                </Formik>
               </Card.Body>
             </Card>
           </Col>
