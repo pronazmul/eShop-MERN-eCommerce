@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Row, Table, Button, Col, ButtonGroup } from 'react-bootstrap'
+import { Row, Table, Button, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
@@ -20,10 +20,6 @@ const OrderListScreen = () => {
       history.push('/login')
     }
   }, [dispatch, userInfo, history])
-
-  const orderDeleteHandler = (id) => {
-    window.confirm('Are you Ready to Delete!')
-  }
 
   return (
     <>

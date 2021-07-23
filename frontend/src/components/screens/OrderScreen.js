@@ -28,9 +28,7 @@ const OrderScreen = () => {
   const { loading: loadingPay, success: successPay } = useSelector(
     (state) => state.orderPay
   )
-  const { loading: loadingDeliver, success: successDeliver } = useSelector(
-    (state) => state.orderDeliver
-  )
+  const { success: successDeliver } = useSelector((state) => state.orderDeliver)
 
   const [sdkReady, setSdkReady] = useState(false)
 
@@ -59,7 +57,7 @@ const OrderScreen = () => {
         setSdkReady(true)
       }
     }
-  }, [id, history, dispatch, order, successPay, successDeliver])
+  }, [id, history, dispatch, order, successPay, successDeliver, userInfo])
 
   // Paypal Payment Success Handler:
   const successPaymentHandler = (paymentResult) => {

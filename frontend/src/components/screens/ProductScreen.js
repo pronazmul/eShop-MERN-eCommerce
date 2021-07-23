@@ -24,6 +24,7 @@ const ProductScreen = () => {
   const history = useHistory()
   const { id } = useParams()
   const [qty, setQty] = useState(1)
+  const dispatch = useDispatch()
 
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
@@ -33,7 +34,6 @@ const ProductScreen = () => {
   const { success: createReviewSuccess, error: createReviewError } =
     useSelector((state) => state.productReviewCreate)
 
-  const dispatch = useDispatch()
   useEffect(() => {
     if (createReviewSuccess) {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })

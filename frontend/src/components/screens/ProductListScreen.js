@@ -47,6 +47,7 @@ const ProductListScreen = () => {
     deleteSuccess,
     createSuccess,
     createdProduct,
+    products,
   ])
 
   const productDeleteHandler = (id) => {

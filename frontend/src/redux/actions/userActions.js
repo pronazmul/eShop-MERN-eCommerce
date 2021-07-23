@@ -222,7 +222,7 @@ export const userUpdateAction = (id, user) => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const { data } = await axios.put(`/api/user/${id}`, user, config)
+    await axios.put(`/api/user/${id}`, user, config)
     dispatch({ type: USER_UPDATE_SUCCESS })
     dispatch({ type: USER_LIST_RESET })
   } catch (error) {
