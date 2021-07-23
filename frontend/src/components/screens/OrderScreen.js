@@ -162,7 +162,7 @@ const OrderScreen = () => {
               <strong>Total:</strong>
               <strong>${order.totalPrice}</strong>
             </ListGroup.Item>
-            {userInfo && !userInfo.role === 'admin' && !order.isPaid && (
+            {!order.isPaid && (
               <ListGroup.Item className='text-center'>
                 {loadingPay && <Loader />}
                 {!sdkReady ? (

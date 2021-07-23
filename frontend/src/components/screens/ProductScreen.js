@@ -42,7 +42,7 @@ const ProductScreen = () => {
     dispatch(productDetailsAction(id))
   }, [id, dispatch, createReviewSuccess])
 
-  const addToCartHandler = () => {
+  const addToCartHandler = (id, qty) => {
     history.push(`/cart/${id}?qty=${qty}`)
   }
 
@@ -126,7 +126,7 @@ const ProductScreen = () => {
                         className={`btn btn-md btn-blue btn-primary mb-2 ${
                           product.countInStock < 1 && 'disabled'
                         }`}
-                        onClick={addToCartHandler}
+                        onClick={() => addToCartHandler(id, qty)}
                       >
                         Add to Cart
                       </Link>

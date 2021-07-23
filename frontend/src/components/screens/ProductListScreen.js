@@ -31,11 +31,10 @@ const ProductListScreen = () => {
   } = useSelector((state) => state.productCreate)
 
   useEffect(() => {
-    if ((userInfo && userInfo.role === 'admin') || !products || deleteSuccess) {
-      dispatch(productListAction())
-    } else {
+    if (userInfo && userInfo.role !== 'admin') {
       history.push('/login')
     }
+    dispatch(productListAction())
     if (createSuccess) {
       dispatch({ type: PRODUCT_DETAILS_RESET })
       history.push(`/admin/product/${createdProduct._id}/edit`)
@@ -47,7 +46,6 @@ const ProductListScreen = () => {
     deleteSuccess,
     createSuccess,
     createdProduct,
-    products,
   ])
 
   const productDeleteHandler = (id) => {

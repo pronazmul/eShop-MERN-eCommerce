@@ -11,13 +11,14 @@ import Message from '../uiElements/Message'
 const CartScreen = () => {
   const { id } = useParams()
   const history = useHistory()
-  const { search } = useLocation()
-  const qty = search ? Number(search.split('=')[1]) : 1
-
+  const location = useLocation()
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(addToCartAction(id, qty))
+    if (id && qty) {
+      dispatch(addToCartAction(id, qty))
+    }
   }, [dispatch, id, qty])
 
   const { cartItems } = useSelector((item) => item.cart)
