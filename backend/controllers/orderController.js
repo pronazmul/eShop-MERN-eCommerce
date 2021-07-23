@@ -61,6 +61,23 @@ const paymentUpdate = asyncHandler(async (req, res, next) => {
 })
 
 /**
+ * @desc   Update Order With Delivery
+ * @Route  PUT api/orders/:id/deliver
+ * @access private/Admin
+ */
+const deliveryUpdate = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id)
+  if (order) {
+    order.isDelivered = true
+    order.deliveredAt = Date.now()
+    const updateOrder = await order.save()
+    res.status(200).json(updateOrder)
+  } else {
+    next(createHttpError(404, 'No Order Found'))
+  }
+})
+
+/**
  * @desc   Get Logged in user all orders
  * @Route  GET api/orders/myorders
  * @access private
@@ -96,4 +113,5 @@ module.exports = {
   paymentUpdate,
   getMyOrders,
   getAllOrder,
+  deliveryUpdate,
 }

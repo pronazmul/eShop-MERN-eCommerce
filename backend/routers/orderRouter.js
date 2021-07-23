@@ -6,6 +6,7 @@ const {
   paymentUpdate,
   getMyOrders,
   getAllOrder,
+  deliveryUpdate,
 } = require('../controllers/orderController')
 const router = express.Router()
 
@@ -21,6 +22,7 @@ router.route('/:id/pay').put(authGuard, paymentUpdate)
 
 // @Admin Only
 router.route('/').get(authGuard, checkRole('admin'), getAllOrder)
+router.route('/:id/deliver').put(authGuard, checkRole('admin'), deliveryUpdate)
 
 // Export Module:
 module.exports = router
