@@ -63,7 +63,6 @@ const Rating = ({ rating, review, color = '#ebba34' }) => {
           }
         ></i>
       </span>
-
       <span> {review && review}</span>
     </>
   )

@@ -35,7 +35,7 @@ const CartScreen = () => {
       <h2 className='py-3'>Shopping Cart 🛒</h2>
       {cartItems.length === 0 ? (
         <Row>
-          <Message>
+          <Message variant='light'>
             Cart is empty{' '}
             <Link to='/' className='btn btn-md btn-blue'>
               Back to Home

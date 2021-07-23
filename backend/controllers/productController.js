@@ -108,6 +108,36 @@ const deleteProduct = asyncHandler(async (req, res, next) => {
   }
 })
 
+const createProductReview = asyncHandler(async (req, res, next) => {
+  const { rating, comment } = req.body
+  const product = await Product.findById(req.params.id)
+
+  if (product) {
+    const alreadyReviewed = product.reviews.find(
+      (r) => r.user.toString() === req.user.id.toString()
+    )
+    if (!alreadyReviewed) {
+      const review = {
+        rating: Number(rating),
+        comment,
+        user: req.user.id,
+        name: req.user.name,
+      }
+      product.reviews.push(review)
+      product.numReviews = product.reviews.length
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length
+      await product.save()
+      res.status(201).json({ message: 'Review Created' })
+    } else {
+      res.status(400).json({ message: 'You already Added a review!' })
+    }
+  } else {
+    res.status(404).json({ errors: 'Product Not Exists' })
+  }
+})
+
 // Module Export:
 module.exports = {
   allProducts,
@@ -115,4 +145,5 @@ module.exports = {
   deleteProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 }

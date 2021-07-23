@@ -177,18 +177,13 @@ const OrderScreen = () => {
                 )}
               </ListGroup.Item>
             )}
-            {userInfo &&
-              userInfo.role === 'admin' &&
-              order.isPaid &&
-              !order.isDelivered && (
-                <ListGroup.Item className='text-center'>
-                  <Button
-                    onClick={() => dispatch(orderDeliverAction(order._id))}
-                  >
-                    Confirm As Delivered
-                  </Button>
-                </ListGroup.Item>
-              )}
+            {order.isPaid && !order.isDelivered && (
+              <ListGroup.Item className='text-center'>
+                <Button onClick={() => dispatch(orderDeliverAction(order._id))}>
+                  Confirm As Delivered
+                </Button>
+              </ListGroup.Item>
+            )}
           </ListGroup>
         </Col>
       </Row>
