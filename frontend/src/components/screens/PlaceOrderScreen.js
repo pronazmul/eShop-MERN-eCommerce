@@ -88,7 +88,12 @@ const PlaceOrderScreen = () => {
                   <ListGroup.Item key={item.product}>
                     <Row className='d-flex justify-content-center align-items-center'>
                       <Col xs={1}>
-                        <Image src={item.image} alt={item.name} fluid rounded />
+                        <Image
+                          src={`/uploads/products/${item.image}`}
+                          alt={item.name}
+                          fluid
+                          rounded
+                        />
                       </Col>
                       <Col xs={7}>
                         <Link

@@ -65,6 +65,9 @@ const Header = () => {
                   <IndexLinkContainer to='/admin/productList'>
                     <NavDropdown.Item>Product List</NavDropdown.Item>
                   </IndexLinkContainer>
+                  <IndexLinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Order List</NavDropdown.Item>
+                  </IndexLinkContainer>
                 </NavDropdown>
               )}
             </Nav>

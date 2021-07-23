@@ -12,7 +12,7 @@ const Product = ({ product }) => {
           variant='top'
           width='w-100'
           height='250'
-          src={`uploads/products/${product.image}`}
+          src={`/uploads/products/${product.image}`}
         />
         <Card.Body>
           <Card.Title>{product.name}</Card.Title>

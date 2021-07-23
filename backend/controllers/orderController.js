@@ -75,5 +75,25 @@ const getMyOrders = asyncHandler(async (req, res, next) => {
   }
 })
 
+/**
+ * @desc   Get All orders
+ * @Route  GET api/orders/
+ * @access private/Admin
+ */
+const getAllOrder = asyncHandler(async (req, res, next) => {
+  const order = await Order.find({}).populate('user', 'id name')
+  if (order) {
+    res.status(200).json(order)
+  } else {
+    next(createHttpError(404, 'No Order Found'))
+  }
+})
+
 // Module Export:
-module.exports = { addNewOrder, getOrderByID, paymentUpdate, getMyOrders }
+module.exports = {
+  addNewOrder,
+  getOrderByID,
+  paymentUpdate,
+  getMyOrders,
+  getAllOrder,
+}
