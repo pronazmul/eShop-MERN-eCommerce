@@ -21,6 +21,7 @@ const OrderScreen = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const history = useHistory()
+
   // @REQUIRED DATA FROM REDUX:
   const { loading, error, order } = useSelector((state) => state.orderDetails)
   const { userInfo } = useSelector((state) => state.userLogin)
@@ -34,6 +35,9 @@ const OrderScreen = () => {
   const [sdkReady, setSdkReady] = useState(false)
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
     const addPaypalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
