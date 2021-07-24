@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Alert, Col, Container, Form, Image, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { productSearchAction } from '../../redux/actions/productActions'
+import { productListAction } from '../../redux/actions/productActions'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import Product from '../uiElements/Product'
@@ -10,17 +10,14 @@ import { useLocation } from 'react-router-dom'
 const SearchProductScreen = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const searchQuery = location.search ? location.search.split('=')[1] : ''
-
-  const { loading, products, error } = useSelector(
-    (state) => state.productSearch
-  )
+  const keyword = location.search ? location.search.split('=')[1] : ''
+  const { loading, products, error } = useSelector((state) => state.productList)
 
   useEffect(() => {
-    if (searchQuery) {
-      dispatch(productSearchAction(searchQuery))
+    if (keyword) {
+      dispatch(productListAction(keyword))
     }
-  }, [dispatch, searchQuery])
+  }, [dispatch, keyword])
 
   return (
     <Container>
@@ -34,7 +31,7 @@ const SearchProductScreen = () => {
             <Alert variant='light'>
               <Row>
                 <Col className='text-bolder'>
-                  {products.length} items found for "{searchQuery}"
+                  {products.length} items found for "{keyword}"
                 </Col>
                 <Col className='text-bolder text-end'>
                   <Form.Group as={Row} className='align-items-center'>

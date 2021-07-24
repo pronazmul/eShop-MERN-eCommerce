@@ -8,12 +8,31 @@ const Product = require('../models/productModel')
 
 /**
  * @desc   Fetch All Product
- * @Route  GET api/products
+ * @Route  GET api/products?keyword=abc&itemShow=2&currentPage=1
  * @access public
  */
 const allProducts = asyncHandler(async (req, res) => {
-  const result = await Product.find()
-  res.status(200).json(result)
+  const itemShow = Number(req.query.itemShow) || 10
+  const currentPage = Number(req.query.currentPage) || 1
+  const searchQuery = req.query.keyword
+    ? {
+        $or: [
+          { name: { $regex: req.query.keyword, $options: 'i' } },
+          { brand: { $regex: req.query.keyword, $options: 'i' } },
+          { category: { $regex: req.query.keyword, $options: 'i' } },
+        ],
+      }
+    : {}
+
+  const count = await Product.countDocuments({ ...searchQuery })
+  // const result = await Product.find({ ...searchQuery }, 'name')
+  const products = await Product.find({ ...searchQuery })
+    .limit(itemShow)
+    .skip(itemShow * (currentPage - 1))
+
+  res
+    .status(200)
+    .json({ products, currentPage, pages: Math.ceil(count / itemShow) })
 })
 
 /**
