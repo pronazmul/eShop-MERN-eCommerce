@@ -21,6 +21,10 @@ import {
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_FAIL,
   PRODUCT_CREATE_REVIEW_RESET,
+  PRODUCT_SEARCH_REQUEST,
+  PRODUCT_SEARCH_SUCCESS,
+  PRODUCT_SEARCH_FAIL,
+  PRODUCT_SEARCH_RESET,
 } from '../constants/productConstants'
 
 // @REDUCER TO Load all Products
@@ -32,6 +36,22 @@ export const productListReducer = (state = { products: [] }, action) => {
       return { loading: false, products: action.payload }
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+// @REDUCER To load Filtered Products:
+export const productSearchReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_SEARCH_REQUEST:
+      return { loading: true, products: [] }
+    case PRODUCT_SEARCH_SUCCESS:
+      return { loading: false, seccess: true, products: action.payload }
+    case PRODUCT_SEARCH_FAIL:
+      return { loading: false, error: action.payload }
+    case PRODUCT_SEARCH_RESET:
+      return { products: [] }
     default:
       return state
   }

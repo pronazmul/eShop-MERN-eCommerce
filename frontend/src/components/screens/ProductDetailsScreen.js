@@ -20,7 +20,7 @@ import Rating from '../uiElements/Rating'
 import { Formik } from 'formik'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../../redux/constants/productConstants'
 
-const ProductScreen = () => {
+const ProductDetailsScreen = () => {
   const history = useHistory()
   const { id } = useParams()
   const [qty, setQty] = useState(1)
@@ -225,4 +225,4 @@ const ProductScreen = () => {
   )
 }
 
-export default ProductScreen
+export default ProductDetailsScreen

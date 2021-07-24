@@ -10,7 +10,6 @@ import {
 } from 'react-router-dom'
 import HomeScreen from './components/screens/HomeScreen'
 import LoginScreen from './components/screens/LoginScreen'
-import ProductScreen from './components/screens/ProductScreen'
 import CartScreen from './components/screens/CartScreen'
 import RegistrationScreen from './components/screens/RegistrationScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
@@ -23,6 +22,8 @@ import UserEditScreen from './components/screens/UserEditScreen'
 import ProductListScreen from './components/screens/ProductListScreen'
 import ProductEditScreen from './components/screens/ProductEditScreen'
 import OrderListScreen from './components/screens/OrderListScreen'
+import ProductDetailsScreen from './components/screens/ProductDetailsScreen'
+import SearchProductScreen from './components/screens/SearchProductScreen'
 
 const App = () => {
   return (
@@ -38,7 +39,7 @@ const App = () => {
             <Route path='/profile' component={ProfileScreen} />
             <Route path='/login' component={LoginScreen} />
             <Route path='/register' component={RegistrationScreen} />
-            <Route path='/product/:id' component={ProductScreen} />
+            <Route path='/product/:id' component={ProductDetailsScreen} />
             <Route path='/cart/:id?' component={CartScreen} />
             <Route path='/admin/userlist' component={UserListScreen} />
             <Route path='/admin/user/:id/edit' component={UserEditScreen} />
@@ -49,6 +50,11 @@ const App = () => {
             />
             <Route path='/admin/orderlist' component={OrderListScreen} />
             <Route exact path='/' component={HomeScreen} />
+            <Route
+              exact
+              path='/search-result'
+              component={SearchProductScreen}
+            />
             <Route path='*'>
               <Redirect to='/' />
             </Route>

@@ -34,54 +34,62 @@ const OrderListScreen = () => {
         ) : error ? (
           <Message variant='danger'>{error}</Message>
         ) : (
-          <Table responsive striped bordered hover size='lg'>
-            <thead>
-              <tr>
-                <th>Serial</th>
-                <th>ID</th>
-                <th>BUYER</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => (
-                <tr key={order._id}>
-                  <td>{index + 1}</td>
-                  <td>{order._id}</td>
-                  <td className='text-center'>{order.user.name}</td>
-                  <td className='text-center'>
-                    {order.createdAt.substring(0, 10)}
-                  </td>
-                  <td className='text-center'>${order.totalPrice}</td>
-                  <td className='text-center'>
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <i className='fas fa-times' style={{ color: 'red' }}></i>
-                    )}
-                  </td>
-                  <td className='text-center'>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
-                    ) : (
-                      <i className='fas fa-times' style={{ color: 'red' }}></i>
-                    )}
-                  </td>
-                  <td className='text-center'>
-                    <LinkContainer to={`/order/${order._id}`}>
-                      <Button variant='light' className='btn-sm'>
-                        Details
-                      </Button>
-                    </LinkContainer>
-                  </td>
+          orders && (
+            <Table responsive striped bordered hover size='lg'>
+              <thead>
+                <tr>
+                  <th>Serial</th>
+                  <th>ID</th>
+                  <th>BUYER</th>
+                  <th>DATE</th>
+                  <th>TOTAL</th>
+                  <th>PAID</th>
+                  <th>DELIVERED</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {orders.map((order, index) => (
+                  <tr key={order._id}>
+                    <td>{index + 1}</td>
+                    <td>{order._id}</td>
+                    <td className='text-center'>{order.user.name}</td>
+                    <td className='text-center'>
+                      {order.createdAt.substring(0, 10)}
+                    </td>
+                    <td className='text-center'>${order.totalPrice}</td>
+                    <td className='text-center'>
+                      {order.isPaid ? (
+                        order.paidAt.substring(0, 10)
+                      ) : (
+                        <i
+                          className='fas fa-times'
+                          style={{ color: 'red' }}
+                        ></i>
+                      )}
+                    </td>
+                    <td className='text-center'>
+                      {order.isDelivered ? (
+                        order.deliveredAt.substring(0, 10)
+                      ) : (
+                        <i
+                          className='fas fa-times'
+                          style={{ color: 'red' }}
+                        ></i>
+                      )}
+                    </td>
+                    <td className='text-center'>
+                      <LinkContainer to={`/order/${order._id}`}>
+                        <Button variant='light' className='btn-sm'>
+                          Details
+                        </Button>
+                      </LinkContainer>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )
         )}
       </Row>
     </>
