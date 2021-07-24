@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CheckoutSteps from './CheckoutSteps'
 import { orderCreateAction } from './../../redux/actions/orderActions'
+import { CART_RESET_ITEM } from '../../redux/constants/cartConstants'
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch()
@@ -12,9 +13,6 @@ const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart)
   const { cartItems, shippingAddress, paymentMethod } = cart
   const { order, success } = useSelector((state) => state.orderCreate)
-
-  //  Calculate Prices
-  //   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2)
 
   cart.itemsPrice = Number(
     cart.cartItems.reduce((acc, item) => acc + item.price * Number(item.qty), 0)
@@ -30,10 +28,13 @@ const PlaceOrderScreen = () => {
   useEffect(() => {
     if (!paymentMethod) {
       history.push('/payment')
-    } else if (success) {
+    }
+
+    if (success) {
+      dispatch({ type: CART_RESET_ITEM })
       history.push(`/order/${order._id}`)
     }
-  }, [paymentMethod, success, order, history])
+  }, [paymentMethod, success, order, history, dispatch])
 
   // Order Handler
   const handlePlaceOrder = () => {

@@ -65,7 +65,7 @@ const Header = () => {
               id='basic-navbar-nav'
               className='d-flex justify-content-around'
             >
-              <Nav className='align-items-center'>
+              <Nav>
                 <IndexLinkContainer to='/cart'>
                   <Nav.Link>
                     <i className='fas fa-shopping-cart mr-2'></i>
@@ -78,7 +78,6 @@ const Header = () => {
                     )}
                   </Nav.Link>
                 </IndexLinkContainer>
-
                 {userInfo ? (
                   <>
                     <Image
