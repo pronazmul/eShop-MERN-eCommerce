@@ -17,6 +17,31 @@ const allProducts = asyncHandler(async (req, res) => {
 })
 
 /**
+ * @desc   Get Products Filtering By Regex
+ * @Route  GET api/products/search?keyword=abc
+ * @access public
+ */
+const getAllSearchedProducts = asyncHandler(async (req, res) => {
+  const searchQuery = {
+    $regex: req.query.keyword,
+    $options: 'i',
+  }
+  const products = await Product.find({
+    $or: [
+      { name: searchQuery },
+      { brand: searchQuery },
+      { category: searchQuery },
+    ],
+  })
+
+  if (products) {
+    res.status(200).json(products)
+  } else {
+    res.status(404).json({ message: 'No Products Found' })
+  }
+})
+
+/**
  * @desc   Fetch Single Product
  * @Route  GET api/products/:id
  * @access public
@@ -146,4 +171,5 @@ module.exports = {
   createProduct,
   updateProduct,
   createProductReview,
+  getAllSearchedProducts,
 }
