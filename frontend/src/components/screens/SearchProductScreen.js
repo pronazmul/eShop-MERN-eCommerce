@@ -5,19 +5,22 @@ import { productListAction } from '../../redux/actions/productActions'
 import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 import Product from '../uiElements/Product'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import PaginationElement from '../uiElements/PaginationElement'
 
 const SearchProductScreen = () => {
   const dispatch = useDispatch()
-  const location = useLocation()
-  const keyword = location.search ? location.search.split('=')[1] : ''
-  const { loading, products, error } = useSelector((state) => state.productList)
+  const { keyword, pageNumber } = useParams()
+
+  const { loading, error, products, pages, currentPage } = useSelector(
+    (state) => state.productList
+  )
 
   useEffect(() => {
     if (keyword) {
-      dispatch(productListAction(keyword))
+      dispatch(productListAction(keyword, pageNumber, 2))
     }
-  }, [dispatch, keyword])
+  }, [dispatch, keyword, pageNumber])
 
   return (
     <Container>
@@ -57,6 +60,13 @@ const SearchProductScreen = () => {
               </Col>
             ))}
           </Row>
+          <div className='d-flex justify-content-center'>
+            <PaginationElement
+              pages={pages}
+              currentPage={currentPage}
+              keyword={keyword ? keyword : ''}
+            />
+          </div>
         </>
       ) : (
         <Image

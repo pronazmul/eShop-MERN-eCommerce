@@ -30,8 +30,8 @@ const Header = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    history.push(`/search-result?keyword=${searchQuery}`)
-    e.target.reset()
+    history.push(`/search/${searchQuery}`)
+    setSearchQuery('')
   }
 
   return (
