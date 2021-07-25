@@ -36,6 +36,16 @@ const allProducts = asyncHandler(async (req, res) => {
 })
 
 /**
+ * @desc   get Top Rated Proudcts
+ * @Route  GET /api/products/top
+ * @access public
+ */
+const topRatedProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+  res.status(200).json(products)
+})
+
+/**
  * @desc   Get Products Filtering By Regex
  * @Route  GET api/products/search?keyword=abc
  * @access public
@@ -134,7 +144,7 @@ const updateProduct = asyncHandler(async (req, res, next) => {
 /**
  * @desc   Delete Single Product
  * @Route  DELETE api/products/:id
- * @access public/Admin
+ * @access private/Admin
  */
 const deleteProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id)
@@ -152,6 +162,11 @@ const deleteProduct = asyncHandler(async (req, res, next) => {
   }
 })
 
+/**
+ * @desc   Create Review of Product
+ * @Route  POST api/products/:id/review
+ * @access private
+ */
 const createProductReview = asyncHandler(async (req, res, next) => {
   const { rating, comment } = req.body
   const product = await Product.findById(req.params.id)
@@ -191,4 +206,5 @@ module.exports = {
   updateProduct,
   createProductReview,
   getAllSearchedProducts,
+  topRatedProducts,
 }

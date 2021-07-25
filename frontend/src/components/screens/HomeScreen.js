@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { productListAction } from '../../redux/actions/productActions'
 import Loader from '../uiElements/Loader'
@@ -7,6 +7,7 @@ import Message from '../uiElements/Message'
 import PaginationElement from '../uiElements/PaginationElement'
 import Product from '../uiElements/Product'
 import { useParams } from 'react-router-dom'
+import ProductCarousel from '../uiElements/ProductCarousel'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -22,10 +23,12 @@ const HomeScreen = () => {
 
   return (
     <>
-      <Row className=''>
-        <h1 className='text-align-center'>Latest Products</h1>
+      <Row>
+        <ProductCarousel></ProductCarousel>
       </Row>
-
+      <Row className=''>
+        <h2 className='text-align-center'>Latest Products</h2>
+      </Row>
       {loading ? (
         <Loader />
       ) : error ? (

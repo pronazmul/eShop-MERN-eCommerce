@@ -13,10 +13,12 @@ const {
   updateProduct,
   createProductReview,
   getAllSearchedProducts,
+  topRatedProducts,
 } = require('../controllers/productController')
 const productUpload = require('../middlewares/uploadValidation/productUpload')
 
 router.route('/').get(allProducts)
+router.route('/top').get(topRatedProducts)
 router.route('/search').get(getAllSearchedProducts)
 router.route('/:id').get(singleProduct)
 router.route('/:id/review').post(authGuard, createProductReview)
