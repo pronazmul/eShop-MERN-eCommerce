@@ -12,7 +12,7 @@ const SearchProductScreen = () => {
   const dispatch = useDispatch()
   const { keyword, pageNumber } = useParams()
 
-  const { loading, error, products, pages, currentPage } = useSelector(
+  const { loading, error, products, pages, currentPage, count } = useSelector(
     (state) => state.productList
   )
 
@@ -28,13 +28,13 @@ const SearchProductScreen = () => {
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
-      ) : products && products.length > 0 ? (
+      ) : products && count > 0 ? (
         <>
           <Row>
             <Alert variant='light'>
               <Row>
                 <Col className='text-bolder'>
-                  {products.length} items found for "{keyword}"
+                  {count} items found for "{keyword}"
                 </Col>
                 <Col className='text-bolder text-end'>
                   <Form.Group as={Row} className='align-items-center'>
@@ -72,7 +72,7 @@ const SearchProductScreen = () => {
         <Image
           className='d-block mx-auto'
           style={{ height: '80vh' }}
-          src='images/noproduct.png'
+          src='/images/noproduct.png'
           alt='No Product'
         />
       )}

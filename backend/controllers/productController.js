@@ -7,7 +7,7 @@ const path = require('path')
 const Product = require('../models/productModel')
 
 /**
- * @desc   Fetch All Product
+ * @desc   Fetch All Product & Advance Search Option
  * @Route  GET api/products?keyword=abc&itemShow=2&currentPage=1
  * @access public
  */
@@ -32,7 +32,7 @@ const allProducts = asyncHandler(async (req, res) => {
 
   res
     .status(200)
-    .json({ products, currentPage, pages: Math.ceil(count / itemShow) })
+    .json({ products, currentPage, count, pages: Math.ceil(count / itemShow) })
 })
 
 /**
