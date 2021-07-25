@@ -9,6 +9,7 @@ import { saveShippingAddressAction } from '../../redux/actions/cartActions'
 import CheckoutSteps from './CheckoutSteps'
 
 const ShippingScreen = () => {
+  document.title = 'eShop | Shipping Address'
   const history = useHistory()
 
   const { userInfo } = useSelector((state) => state.userLogin)

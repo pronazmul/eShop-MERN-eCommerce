@@ -16,6 +16,7 @@ import { orderListMyAction } from '../../redux/actions/orderActions'
 import { LinkContainer } from 'react-router-bootstrap'
 
 const ProfileScreen = () => {
+  document.title = 'eShop | Profile'
   const history = useHistory()
   const [avatarPreview, setAvatarPreview] = useState(null)
   const { userInfo } = useSelector((state) => state.userLogin)

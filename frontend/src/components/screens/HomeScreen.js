@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import ProductCarousel from '../uiElements/ProductCarousel'
 
 const HomeScreen = () => {
+  document.title = 'Welcome to eShop'
   const dispatch = useDispatch()
   const { pageNumber } = useParams()
 

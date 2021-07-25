@@ -25,6 +25,7 @@ import {
 import PaginationElement from '../uiElements/PaginationElement'
 
 const ProductListScreen = () => {
+  document.title = 'eShop | Manage Products'
   const history = useHistory()
   const dispatch = useDispatch()
   const { pageNumber } = useParams()

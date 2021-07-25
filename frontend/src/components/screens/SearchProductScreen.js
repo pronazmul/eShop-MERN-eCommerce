@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import PaginationElement from '../uiElements/PaginationElement'
 
 const SearchProductScreen = () => {
+  document.title = 'eShop | Search'
   const dispatch = useDispatch()
   const { keyword, pageNumber } = useParams()
 

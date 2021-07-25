@@ -17,6 +17,7 @@ import {
 } from '../../redux/constants/userConstants'
 
 const UserEditScreen = () => {
+  document.title = 'eShop | Edit User'
   const history = useHistory()
   const { id } = useParams()
   const dispatch = useDispatch()

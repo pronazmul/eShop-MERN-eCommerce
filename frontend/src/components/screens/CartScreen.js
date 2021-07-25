@@ -9,6 +9,7 @@ import {
 import Message from '../uiElements/Message'
 
 const CartScreen = () => {
+  document.title = 'eShop | Cart'
   const { id } = useParams()
   const history = useHistory()
   const location = useLocation()

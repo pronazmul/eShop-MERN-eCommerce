@@ -18,6 +18,7 @@ import {
 } from '../../redux/constants/orderConstants'
 
 const OrderScreen = () => {
+  document.title = 'eShop | Order'
   const dispatch = useDispatch()
   const { id } = useParams()
   const history = useHistory()

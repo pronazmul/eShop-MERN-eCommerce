@@ -7,6 +7,7 @@ import CheckoutSteps from './CheckoutSteps'
 import { savePaymentMethodAction } from '../../redux/actions/cartActions'
 
 const PaymentScreen = () => {
+  document.title = 'eShop | Payment Option'
   const history = useHistory()
   const { shippingAddress } = useSelector((state) => state.cart)
   const dispatch = useDispatch()

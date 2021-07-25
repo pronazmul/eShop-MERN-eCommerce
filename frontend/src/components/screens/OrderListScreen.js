@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { orderListAction } from './../../redux/actions/orderActions'
 
 const OrderListScreen = () => {
+  document.title = 'eShop | Manage Orders'
   const history = useHistory()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.userLogin)

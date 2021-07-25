@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom'
 import { USER_LIST_RESET } from './../../redux/constants/userConstants'
 
 const UserListScreen = () => {
+  document.title = 'eShop | Manage Users'
   const history = useHistory()
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.userLogin)

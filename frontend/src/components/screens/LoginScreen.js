@@ -10,6 +10,7 @@ import Loader from '../uiElements/Loader'
 import Message from '../uiElements/Message'
 
 const LoginScreen = () => {
+  document.title = 'eShop | Login'
   const history = useHistory()
   const location = useLocation()
   const redirect = location.search ? history.location.search.split('=')[1] : '/'

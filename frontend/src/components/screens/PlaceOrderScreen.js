@@ -8,6 +8,7 @@ import { orderCreateAction } from './../../redux/actions/orderActions'
 import { CART_RESET_ITEM } from '../../redux/constants/cartConstants'
 
 const PlaceOrderScreen = () => {
+  document.title = 'eShop | Place Order'
   const dispatch = useDispatch()
   const history = useHistory()
   const cart = useSelector((state) => state.cart)

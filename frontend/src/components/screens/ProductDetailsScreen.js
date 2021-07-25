@@ -57,6 +57,9 @@ const ProductDetailsScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
+          <span className='d-none'>
+            {(document.title = `eShop|${product.name}`)}
+          </span>
           <Row>
             <Col
               className='px-1 d-flex justify-content-center align-items-center'
